@@ -34,34 +34,49 @@ let owner = JSON.parse(fs.readFileSync('./Gallery/database/owner.json'))
 
 const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
 const useMobile = process.argv.includes("--mobile")
+const { makeWASocket, Browsers } = require('baileys'); // Assuming Baileys package is imported properly
+const pino = require('pino'); // Assuming pino package is imported properly
 
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
-const question = (text) => new Promise((resolve) => rl.question(text, resolve))
-         
+const useMobile = process.argv.includes("--mobile");
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+
+const question = (text) => new Promise((resolve) => rl.question(text, resolve));
+
 async function startMaria() {
-//------------------------------------------------------
-let { version, isLatest } = await fetchLatestBaileysVersion()
-const {  state, saveCreds } =await useMultiFileAuthState(`./session`)
-    const msgRetryCounterCache = new NodeCache() // for retry message, "waiting message"
-    const Maria = makeWASocket({
-      logger: pino({ level: 'silent' }),
-      printQRInTerminal: !pairingCode, // popping up QR in terminal log
-      mobile: useMobile, // mobile api (prone to bans)
-      browser: Browsers.ubuntu('Firefox'), // for this issues https://github.com/WhiskeySockets/Baileys/issues/328
-      auth: state,
-      markOnlineOnConnect: true, // set false for offline
-      generateHighQualityLinkPreview: true, // make high preview link
-      getMessage: async (key) => {
-         let jid = jidNormalizedUser(key.remoteJid)
-         let msg = await store.loadMessage(jid, key.id)
+    try {
+        let { version, isLatest } = await fetchLatestBaileysVersion();
+        const { state, saveCreds } = await useMultiFileAuthState('./session');
+        const msgRetryCounterCache = new NodeCache(); // for retry message, "waiting message"
+        
+        const Maria = makeWASocket({
+            logger: pino({ level: 'silent' }),
+            printQRInTerminal: !pairingCode, // popping up QR in terminal log
+            mobile: useMobile, // mobile api (prone to bans)
+            browser: Browsers.ubuntu('Firefox'), // for this issues https://github.com/WhiskeySockets/Baileys/issues/328
+            auth: state,
+            markOnlineOnConnect: true, // set false for offline
+            generateHighQualityLinkPreview: true, // make high preview link
+            getMessage: async (key) => {
+                let jid = jidNormalizedUser(key.remoteJid);
+                let msg = await store.loadMessage(jid, key.id);
+                return msg?.message || "";
+            },
+            msgRetryCounterCache, // Resolve waiting messages
+            defaultQueryTimeoutMs: undefined, // for this issues https://github.com/WhiskeySockets/Baileys/issues/276
+        });
+        
+        // Bind Maria events to store (assuming store is properly defined)
+        store.bind(Maria.ev);
+        
+    } catch (error) {
+        console.error('Error in startMaria:', error);
+    } finally {
+        rl.close(); // Close readline interface when done
+    }
+}
 
-         return msg?.message || ""
-      },
-      msgRetryCounterCache, // Resolve waiting messages
-      defaultQueryTimeoutMs: undefined, // for this issues https://github.com/WhiskeySockets/Baileys/issues/276
-   })
-   
-   store.bind(Maria.ev)
+startMaria();
+	
 
     // login use pairing code
    // source code https://github.com/WhiskeySockets/Baileys/blob/master/Example/example.ts#L61
