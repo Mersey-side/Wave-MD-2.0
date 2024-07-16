@@ -13,6 +13,7 @@ const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./Gall
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetch, await, sleep, reSize } = require('./Gallery/lib/myfunc.js')
 const { default: MariaConnect, delay, PHONENUMBER_MCC, makeCacheableSignalKeyStore, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore,getAggregateVotesInPollMessage, jidDecode, proto, Browsers } = require("@whiskeysockets/baileys")
 const NodeCache = require("node-cache")
+const Pino = require("pino")
 const readline = require("readline")
 const { parsePhoneNumber } = require("libphonenumber-js")
 
@@ -32,68 +33,69 @@ let phoneNumber = "254745247106"
 let owner = JSON.parse(fs.readFileSync('./Gallery/database/owner.json'))
 
 const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
-const useMobile = process.argv.includes("--mobile");
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const useMobile = process.argv.includes("--mobile")
 
-const question = (text) => new Promise((resolve) => rl.question(text, resolve));
-
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+const question = (text) => new Promise((resolve) => rl.question(text, resolve))
+         
 async function startMaria() {
-    try {
-        // Assuming these variables are defined elsewhere in your code
-        let pairingCode = ''; // Placeholder for pairingCode
-        let Maria = {}; // Placeholder for Maria object
-        
-        // Check for pairingCode and if Maria.authState.creds.registered is false
-        if (pairingCode && !Maria.authState.creds.registered) {
-            if (useMobile) {
-                throw new Error('Cannot use pairing code with mobile API');
-            }
+//------------------------------------------------------
+let { version, isLatest } = await fetchLatestBaileysVersion()
+const {  state, saveCreds } =await useMultiFileAuthState(`./session`)
+    const msgRetryCounterCache = new NodeCache() // for retry message, "waiting message"
+    const Maria = makeWASocket({
+      logger: pino({ level: 'silent' }),
+      printQRInTerminal: !pairingCode, // popping up QR in terminal log
+      mobile: useMobile, // mobile api (prone to bans)
+      browser: Browsers.ubuntu('Firefox'), // for this issues https://github.com/WhiskeySockets/Baileys/issues/328
+      auth: state,
+      markOnlineOnConnect: true, // set false for offline
+      generateHighQualityLinkPreview: true, // make high preview link
+      getMessage: async (key) => {
+         let jid = jidNormalizedUser(key.remoteJid)
+         let msg = await store.loadMessage(jid, key.id)
 
-            let phoneNumber;
-            if (!!phoneNumber) {
-                phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+         return msg?.message || ""
+      },
+      msgRetryCounterCache, // Resolve waiting messages
+      defaultQueryTimeoutMs: undefined, // for this issues https://github.com/WhiskeySockets/Baileys/issues/276
+   })
+   
+   store.bind(Maria.ev)
 
-                if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
-                    console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254745247106")));
-                    process.exit(0);
-                }
-            } else {
-                phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Your WhatsApp bot number\nFor example: +254745247106 : `)));
-                phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+    // login use pairing code
+   // source code https://github.com/WhiskeySockets/Baileys/blob/master/Example/example.ts#L61
+   if (pairingCode && !Maria.authState.creds.registered) {
+      if (useMobile) throw new Error('Cannot use pairing code with mobile api')
 
-                // Ask again when entering the wrong number
-                if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
-                    console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254745247106")));
+      let phoneNumber
+      if (!!phoneNumber) {
+         phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
 
-                    phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Your WhatsApp bot number please\nFor example: +919931122319: `)));
-                    phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
-                    rl.close();
-                }
-            }
+         if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+            console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254745247106")))
+            process.exit(0)
+         }
+      } else {
+         phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Your WhatsApp bot number\nFor example: +254745247106 : `	)))
+         phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
 
-            // Async function to handle setTimeout
-            const handlePairingCodeRequest = async () => {
-                try {
-                    let code = await Maria.requestPairingCode(phoneNumber);
-                    code = code?.match(/.{1,4}/g)?.join("-") || code;
-                    console.log(chalk.black(chalk.bgGreen(`🤖Your Pairing Code🤖: `)), chalk.black(chalk.white(code)));
-                } catch (error) {
-                    console.error('Error fetching pairing code:', error);
-                }
-            };
+         // Ask again when entering the wrong number
+         if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+            console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254745247106")))
 
-            // Execute handlePairingCodeRequest after 3 seconds
-            setTimeout(handlePairingCodeRequest, 3000);
-        }
-    } catch (error) {
-        console.error('Error in startMaria:', error);
-    } finally {
-        rl.close(); // Close readline interface when done
-    }
-}
+            phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Your WhatsApp bot number please\nFor example: +254745247106: `)))
+            phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+            rl.close()
+         }
+      }
 
-startMaria();
-
+      setTimeout(async () => {
+         let code = await Maria.requestPairingCode(phoneNumber)
+         code = code?.match(/.{1,4}/g)?.join("-") || code
+         console.log(chalk.black(chalk.bgGreen(`Pairing Code: `)), chalk.black(chalk.white(code)))
+      }, 3000)
+   }
 
     Maria.ev.on('messages.upsert', async chatUpdate => {
         //console.log(JSON.stringify(chatUpdate, undefined, 2))
@@ -169,21 +171,20 @@ startMaria();
 Maria.ev.on("connection.update",async  (s) => {
         const { connection, lastDisconnect } = s
         if (connection == "open") {
-console.log(chalk.green('Welcome to Wave-MD'));
-console.log(chalk.gray('\n\n🚀Initializing...'));
-           await delay(1000 * 2) 
-            Maria.groupAcceptInvite("FGPKxVnjgJ7KnBGiDeb4ij")
-            
-console.log(chalk.cyan('\n\nConnected'));
+console.log(chalk.green('Welcome to WAVE-MD'));
+console.log(chalk.gray('\n\nInitializing...'));
+           await delay(1000 * 1) 
+                    
+console.log(chalk.cyan('\n\nConnected'));
 
 Maria.sendMessage(Maria.user.id, {
-    text: `Wave-MD connected 
+    text: `WAVE-MD ᴄᴏɴɴᴇᴄᴛᴇᴅ 
 
 ᴘʀᴇꜰɪx: [ ${prefix} ]\n
 ᴄᴏᴍᴍᴀɴᴅꜱ: 246\n
 ᴠᴇʀꜱɪᴏɴ: 3.0\n
-ᴄʀᴇᴀᴛᴏʀ: bealthguy\n
-_ᴛʏᴘᴇ ${prefix}ᴀʟɪᴠᴇ ᴛᴏ ᴜꜱᴇ ᴛʜᴇ ʙᴏᴛ_ 🤖
+ᴄʀᴇᴀᴛᴏʀ: bealth guy\n
+_ᴛʏᴘᴇ ${prefix}ᴀʟɪᴠᴇ 
  `
 });
 
@@ -195,7 +196,7 @@ function printRainbowMessage() {
   const color = rainbowColors[index];
   console.log(chalk.keyword(color)('\n\nwaiting for messages'));
   index = (index + 1) % rainbowColors.length;
-  setTimeout(printRainbowMessage, 60000);  // Adjust the timeout for desired speed
+  setTimeout(printRainbowMessage, 6000);  // Adjust the timeout for desired speed
 }
 
 printRainbowMessage();
@@ -304,7 +305,7 @@ async function getMessage(key){
             return msg?.message
         }
         return {
-            conversation: "Wave Bot Here!"
+            conversation: "WAVE-MD !"
         }
     }
     Maria.ev.on('messages.update', async chatUpdate => {
@@ -358,7 +359,7 @@ MariaLft = await getBuffer(ppuser)
                 const xtime = moment.tz('Africa/Nairobi').format('HH:mm:ss')
 	            const xdate = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
 	            const xmembers = metadata.participants.length
-Mariabody = `┌──⊰ 🎗𝑾𝑬𝑳𝑪𝑶𝑴𝑬🎗⊰
+Mariabody = `┌──𝑾𝑬𝑳𝑪𝑶𝑴𝑬
 │⊳  🌐 To: ${metadata.subject}
 │⊳  📋 Name: @${MariaName.split("@")[0]}
 │⊳  👥 Members: ${xmembers}th
@@ -382,7 +383,7 @@ Maria.sendMessage(anu.id,
 	                const Mariadate = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
                 	let MariaName = num
                     const Mariamembers = metadata.participants.length  
-     Mariabody = `┌──𝑭𝑨𝑹𝑬𝑾𝑬𝑳𝑳
+     Mariabody = `┌── 𝑭𝑨𝑹𝑬𝑾𝑬𝑳𝑳
 │⊳  👤 From: ${metadata.subject}
 │⊳  📃 Reason: Left
 │⊳  📔 Name: @${MariaName.split("@")[0]}
@@ -418,6 +419,7 @@ console.log(err)
         }
 
         return buffer
+    }
     }
 return startMaria()
 
