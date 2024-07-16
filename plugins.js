@@ -13,7 +13,6 @@ const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./Gall
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetch, await, sleep, reSize } = require('./Gallery/lib/myfunc.js')
 const { default: MariaConnect, delay, PHONENUMBER_MCC, makeCacheableSignalKeyStore, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore,getAggregateVotesInPollMessage, jidDecode, proto, Browsers } = require("@whiskeysockets/baileys")
 const NodeCache = require("node-cache")
-const Pino = require("pino")
 const readline = require("readline")
 const { parsePhoneNumber } = require("libphonenumber-js")
 
@@ -33,10 +32,6 @@ let phoneNumber = "254745247106"
 let owner = JSON.parse(fs.readFileSync('./Gallery/database/owner.json'))
 
 const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
-const useMobile = process.argv.includes("--mobile")
-const { makeWASocket, Browsers } = require('baileys'); // Assuming Baileys package is imported properly
-const pino = require('pino'); // Assuming pino package is imported properly
-
 const useMobile = process.argv.includes("--mobile");
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
@@ -44,30 +39,52 @@ const question = (text) => new Promise((resolve) => rl.question(text, resolve));
 
 async function startMaria() {
     try {
-        let { version, isLatest } = await fetchLatestBaileysVersion();
-        const { state, saveCreds } = await useMultiFileAuthState('./session');
-        const msgRetryCounterCache = new NodeCache(); // for retry message, "waiting message"
+        // Assuming these variables are defined elsewhere in your code
+        let pairingCode = ''; // Placeholder for pairingCode
+        let Maria = {}; // Placeholder for Maria object
         
-        const Maria = makeWASocket({
-            logger: pino({ level: 'silent' }),
-            printQRInTerminal: !pairingCode, // popping up QR in terminal log
-            mobile: useMobile, // mobile api (prone to bans)
-            browser: Browsers.ubuntu('Firefox'), // for this issues https://github.com/WhiskeySockets/Baileys/issues/328
-            auth: state,
-            markOnlineOnConnect: true, // set false for offline
-            generateHighQualityLinkPreview: true, // make high preview link
-            getMessage: async (key) => {
-                let jid = jidNormalizedUser(key.remoteJid);
-                let msg = await store.loadMessage(jid, key.id);
-                return msg?.message || "";
-            },
-            msgRetryCounterCache, // Resolve waiting messages
-            defaultQueryTimeoutMs: undefined, // for this issues https://github.com/WhiskeySockets/Baileys/issues/276
-        });
-        
-        // Bind Maria events to store (assuming store is properly defined)
-        store.bind(Maria.ev);
-        
+        // Check for pairingCode and if Maria.authState.creds.registered is false
+        if (pairingCode && !Maria.authState.creds.registered) {
+            if (useMobile) {
+                throw new Error('Cannot use pairing code with mobile API');
+            }
+
+            let phoneNumber;
+            if (!!phoneNumber) {
+                phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+
+                if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+                    console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254745247106")));
+                    process.exit(0);
+                }
+            } else {
+                phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Your WhatsApp bot number\nFor example: +254745247106 : `)));
+                phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+
+                // Ask again when entering the wrong number
+                if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+                    console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254745247106")));
+
+                    phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Your WhatsApp bot number please\nFor example: +919931122319: `)));
+                    phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+                    rl.close();
+                }
+            }
+
+            // Async function to handle setTimeout
+            const handlePairingCodeRequest = async () => {
+                try {
+                    let code = await Maria.requestPairingCode(phoneNumber);
+                    code = code?.match(/.{1,4}/g)?.join("-") || code;
+                    console.log(chalk.black(chalk.bgGreen(`🤖Your Pairing Code🤖: `)), chalk.black(chalk.white(code)));
+                } catch (error) {
+                    console.error('Error fetching pairing code:', error);
+                }
+            };
+
+            // Execute handlePairingCodeRequest after 3 seconds
+            setTimeout(handlePairingCodeRequest, 3000);
+        }
     } catch (error) {
         console.error('Error in startMaria:', error);
     } finally {
@@ -76,41 +93,7 @@ async function startMaria() {
 }
 
 startMaria();
-	
 
-    // login use pairing code
-   // source code https://github.com/WhiskeySockets/Baileys/blob/master/Example/example.ts#L61
-   if (pairingCode && !Maria.authState.creds.registered) {
-      if (useMobile) throw new Error('Cannot use pairing code with mobile api')
-
-      let phoneNumber
-      if (!!phoneNumber) {
-         phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
-
-         if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
-            console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254745247106")))
-            process.exit(0)
-         }
-      } else {
-         phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Your WhatsApp bot number\nFor example: +254745247106 : `)))
-         phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
-
-         // Ask again when entering the wrong number
-         if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
-            console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254745247106")))
-
-            phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Your WhatsApp bot number please\nFor example: +919931122319: `)))
-            phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
-            rl.close()
-         }
-      }
-
-      setTimeout(async () => {
-         let code = await Maria.requestPairingCode(phoneNumber)
-         code = code?.match(/.{1,4}/g)?.join("-") || code
-         console.log(chalk.black(chalk.bgGreen(`🤖Your Pairing Code🤖: `)), chalk.black(chalk.white(code)))
-      }, 3000)
-   }
 
     Maria.ev.on('messages.upsert', async chatUpdate => {
         //console.log(JSON.stringify(chatUpdate, undefined, 2))
@@ -126,7 +109,7 @@ startMaria();
             if (!Maria.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
             if (mek.key.id.startsWith('BAE5') && mek.key.id.length === 16) return
             const m = smsg(Maria, mek, store)
-            require("./Heart")(Maria, m, chatUpdate, store)
+            require("./engine")(Maria, m, chatUpdate, store)
         } catch (err) {
             console.log(err)
         }

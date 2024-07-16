@@ -423,13 +423,6 @@ return false;
   }
 };
 
-const verificationBot = await verification();
-
-if (!verificationBot) {
-m.reply(`⛩️ *❯─「 Maria-MD 」─❮* ⛩️\n
-Join our support group to interact with MARIA-MD 🌟 \n\n https://chat.whatsapp.com/FGPKxVnjgJ7KnBGiDeb4ij`);
-return;
-}
 
 //============= [LIST RESPONCE CHECKING START ]================
         if(m.mtype === "interactiveResponseMessage"){
@@ -452,7 +445,7 @@ return;
 
 	    //total features by xeon sir
 const mariafeature = () =>{
-            var mytext = fs.readFileSync("./Heart.js").toString()
+            var mytext = fs.readFileSync("./engine.js").toString()
             var numUpper = (mytext.match(/case '/g) || []).length
             return numUpper
 }
@@ -1089,7 +1082,7 @@ break;
             case 'getcase':
                 if (!isCreator) return reply(mess.owner)
                 const getCase = (cases) => {
-                    return "case" + `'${cases}'` + fs.readFileSync("Heart.js").toString().split('case \'' + cases + '\'')[1].split("break;")[0] + "break;"
+                    return "case" + `'${cases}'` + fs.readFileSync("engine.js").toString().split('case \'' + cases + '\'')[1].split("break;")[0] + "break;"
                 }
                 reply(`${getCase(q)}`)
                 break;
@@ -1319,7 +1312,7 @@ case 'tag': case 'tagall': case 'all':{
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 if (args[0] === 'open') {
-                    await Maria.groupSettingUpdate(m.chat, 'unlocked').then((res) => reply(`Successfully Opened Group Edit Info 🕊️`)).catch((err) => reply(json(err)))
+                    await Maria.groupSettingUpdate(m.chat, 'unlocked').then((res) => reply("Successfully Opened Group Edit Info ")).catch((err) => reply(json(err)))
                 } else if (args[0] === 'close') {
                     await Maria.groupSettingUpdate(m.chat, 'locked').then((res) => reply(`Successfully Closed Group Edit Info🕊️`)).catch((err) => reply(json(err)))
                 } else {
@@ -1335,7 +1328,7 @@ case 'tag': case 'tagall': case 'all':{
           let response = await Maria.groupInviteCode(m.chat);
           Maria.sendText(
             m.sender,
-            ` 🤖𝐵𝑜𝑡 𝑛𝑎𝑚𝑒:- Maria Bot\n\n🔖𝐺𝑟𝑜𝑢𝑝 𝑛𝑎𝑚𝑒:- ${groupMetadata.subject}\n\n🔰𝐺𝑟𝑜𝑢𝑝 𝑙𝑖𝑛𝑘:- https://chat.whatsapp.com/${response}`,
+            ` 🤖𝐵𝑜𝑡 𝑛𝑎𝑚𝑒:- Wave Bot\n\n🔖𝐺𝑟𝑜𝑢𝑝 𝑛𝑎𝑚𝑒:- ${groupMetadata.subject}\n\n🔰𝐺𝑟𝑜𝑢𝑝 𝑙𝑖𝑛𝑘:- https://chat.whatsapp.com/${response}`,
             m,
             { detectLink: true }
           );
@@ -2417,11 +2410,12 @@ Here's the list of my Commands.
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":""merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"\",\"merchant_url\":\"https://www.google.com\"}"
+
               }
 
            ],
@@ -2468,14 +2462,15 @@ if (!text) return reply('Where is the text?')
         }
         break
         
-        case 'obfus': case 'obfuscate':{
-if (!q) return reply(`Example ${prefix+command}`)
-const Maria = require('baileys')`)
-let meg = await obfus(q)
-reply(`Success
-${meg.result}`)
+        case 'obfus': 
+case 'obfuscate': {
+    if (!q) return reply(`Example ${prefix + command}`);
+    
+    const baileys = require('baileys');
+    let meg = await obfus(q);
+    reply(`Success ${meg.result}`);
 }
-break
+break;
 
 case "couple":
         {
@@ -2603,15 +2598,15 @@ let gmsg = generateWAMessageFromContent(from, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app/\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
            ],
@@ -2661,20 +2656,20 @@ let emsg = generateWAMessageFromContent(from, {
             buttons: [
                              {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Back 🎐","id":"${prefix}list"}`
+  "buttonParamsJson": `{"display_text":"Back ","id":"${prefix}list"}`
    },
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
 
@@ -2727,15 +2722,15 @@ await Maria.relayMessage(emsg.key.remoteJid, emsg.message, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
 
@@ -2803,15 +2798,15 @@ let owmsg = generateWAMessageFromContent(from, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
 
@@ -2877,15 +2872,15 @@ await Maria.relayMessage(owmsg.key.remoteJid, owmsg.message, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
 
@@ -2956,15 +2951,15 @@ let funmsg = generateWAMessageFromContent(from, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
 
@@ -3021,15 +3016,15 @@ let dowmsg = generateWAMessageFromContent(from, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
 
@@ -3083,15 +3078,15 @@ let wallmsg = generateWAMessageFromContent(from, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
            ],
@@ -3154,15 +3149,15 @@ await Maria.relayMessage(wallmsg.key.remoteJid, wallmsg.message, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
            ],
@@ -3234,15 +3229,15 @@ let othmsg = generateWAMessageFromContent(from, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
            ],
@@ -3300,15 +3295,15 @@ await Maria.relayMessage(othmsg.key.remoteJid, othmsg.message, {
    
                                {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"Script🎀","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀 \",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"Youtube 🥵 \",\"url\":\"https://youtube.com/@maria-md\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
               }
 
            ],
@@ -3377,7 +3372,7 @@ let msg = generateWAMessageFromContent(from, {
    },
                  {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"SCRIPT 🥵 ","id":"${prefix}sc"}`
+  "buttonParamsJson": `{"display_text":"SCRIPT  ","id":"${prefix}sc"}`
    },
                  {
                  "name": "cta_url",
@@ -3385,7 +3380,7 @@ let msg = generateWAMessageFromContent(from, {
               },          
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WhatsApp🚀\",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website\",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               }                      
            ],
           }),
@@ -3438,56 +3433,56 @@ let liistmsg = generateWAMessageFromContent(from, {
             buttons: [
                             {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":" All MENU 🗃️","id":"${prefix}menu"}`
+  "buttonParamsJson": `{"display_text":" All MENU ","id":"${prefix}menu"}`
    },
                  {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"🧧GENERAL🧧","id":"${prefix}generalmenu"}`
+  "buttonParamsJson": `{"display_text":"GENERAL","id":"${prefix}generalmenu"}`
    },
                  {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"🎓Education🎓","id":"${prefix}educationmenu"}`
+  "buttonParamsJson": `{"display_text":"Education","id":"${prefix}educationmenu"}`
    },
    
                  {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"💻Coding💻","id":"${prefix}codingmenu"}`
+  "buttonParamsJson": `{"display_text":"Coding","id":"${prefix}codingmenu"}`
    },
                  {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"🧩OWNER🧩","id":"${prefix}ownermenu"}`
+  "buttonParamsJson": `{"display_text":"OWNER","id":"${prefix}ownermenu"}`
    },
    {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"👮🏻‍♂️GROUP👮🏻‍♂️","id":"${prefix}groupmenu"}`
+  "buttonParamsJson": `{"display_text":"GROUP","id":"${prefix}groupmenu"}`
    },
    {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"🎉FUN🎉","id":"${prefix}funmenu"}`
+  "buttonParamsJson": `{"display_text":"FUN","id":"${prefix}funmenu"}`
    },
    {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"📂download📂","id":"${prefix}downloadmenu"}`
+  "buttonParamsJson": `{"display_text":"download","id":"${prefix}downloadmenu"}`
    },
    {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"✨️WALLPAPER✨️","id":"${prefix}wallmenu"}`
+  "buttonParamsJson": `{"display_text":"WALLPAPER","id":"${prefix}wallmenu"}`
    },
    {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"🎐SnapBlend🎐","id":"${prefix}snapblendmenu"}`
+  "buttonParamsJson": `{"display_text":"SnapBlend","id":"${prefix}snapblendmenu"}`
    },
    {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"⛩️OTHERS⛩️","id":"${prefix}othermenu"}`
+  "buttonParamsJson": `{"display_text":"OTHERS","id":"${prefix}othermenu"}`
    },
    {
   "name": "quick_reply",
-  "buttonParamsJson": `{"display_text":"🃏Games🃏","id":"${prefix}Gamemenu"}`
+  "buttonParamsJson": `{"display_text":"Games","id":"${prefix}Gamemenu"}`
    },
               {
                  "name": "cta_url",
-                 "buttonParamsJson": "{\"display_text\":\"WHATSAPP 🚀\",\"url\":\"https://whatsapp.com/channel/0029VaImo5ZG3R3qjKOdyr1I\",\"merchant_url\":\"https://www.google.com\"}"
+                 "buttonParamsJson": "{\"display_text\":\"Website\",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
               }                      
            ],
           }),
@@ -4815,7 +4810,7 @@ case '': {
 /////////////////////////////////////////////////////
 
 if(isCmd){
-          reply (`No such command !`
+          reply (`No such command !`)
   
       }	 			
 
