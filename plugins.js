@@ -419,7 +419,6 @@ console.log(err)
 
         return buffer
     }
-    }
 return startMaria()
 
 let file = require.resolve(__filename)
