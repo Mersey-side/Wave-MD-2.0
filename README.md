@@ -29,7 +29,7 @@
        </a>
    </p>
 
-# ✧✧Install Manually 👇
+# Install manually in termux and any other vps
 
 <details>
 <summary>Read more</summary>
@@ -46,14 +46,10 @@
 
 - Termux
 ```js
-apt update -y && apt upgrade -y && pkg update -y && pkg upgrade -y && pkg install libwebp -y && pkg install git -y && pkg install nodejs -y && pkg install ffmpeg -y && pkg install yarn && pkg install imagemagick -y && git clone https://github.com/MariaWaBot/Maria-MD && cd Maria-MD && npm install && npm start
-
-```
-
-- Update
-```js
-rm -rf Maria-MD &&
-git clone https://github.com/MariaWaBot/Maria-MD && cd Maria-MD && npm install && npm start
+apt update -y && apt upgrade -y && pkg update -y && pkg upgrade -y && pkg install libwebp -y && pkg install git -y && pkg install nodejs -y && pkg install ffmpeg -y && pkg install yarn && pkg install imagemagick -y 
+git clone https://github.com/Kyle6012/Wave-MD-2.0 && cd Wave-MD-2.0
+rm -rf session
+npm install && npm start
 
 ```
 
