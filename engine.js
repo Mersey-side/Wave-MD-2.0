@@ -43,30 +43,31 @@ let hit = JSON.parse(fs.readFileSync('./Gallery/database/total-hit-user.json'))
 
 //time
 const replay = (teks) => {
-            Maria.sendMessage(m.chat, { text: teks}, { quoted: m})
+            Wave.sendMessage(m.chat, { text: teks}, { quoted: m})
         }
 const xtime = moment.tz('Africa/Nairobi').format('HH:mm:ss')
-        const Ayuxxdate = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
+        const kylexxdate = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
         const time2 = moment().tz('Africa/Nairobi').format('HH:mm:ss')  
          if(time2 < "23:59:00"){
-var Ayushytimewisher = `Good Night `
+var Bealthytimewisher = `Good Night `
  }
  if(time2 < "19:00:00"){
-var Ayushytimewisher = `Good Evening `
+var Bealthytimewisher = `Good Evening `
  }
  if(time2 < "18:00:00"){
-var Ayushytimewisher = `Good Evening `
+var Bealthytimewisher = `Good Evening `
  }
  if(time2 < "15:00:00"){
-var Ayushytimewisher = `Good Afternoon `
+var Bealthytimewisher = `Good Afternoon `
  }
  if(time2 < "11:00:00"){
-var Ayushytimewisher = `Good Morning `
+var Bealthytimewisher = `Good Morning `
  }
  if(time2 < "05:00:00"){
-var Ayushytimewisher = `Good Morning `
+var Bealthytimewisher = `Good Morning `
  } 
-module.exports = Maria = async (Maria, m, msg, chatUpdate, store) => {
+module.exports = Wave = async (
+Wave, m, msg, chatUpdate, store) => {
     try {
         const {
             type,
@@ -100,7 +101,7 @@ module.exports = Maria = async (Maria, m, msg, chatUpdate, store) => {
         const args = body.trim().split(/ +/).slice(1)
         const full_args = body.replace(command, '').slice(1).trim()
         const pushname = m.pushName || "No Name"
-        const botNumber = await Maria.decodeJid(Maria.user.id)
+        const botNumber = await Wave.decodeJid(Wave.user.id)
         const itsMe = m.sender == botNumber ? true : false
         
         const sender = m.sender
@@ -128,7 +129,7 @@ module.exports = Maria = async (Maria, m, msg, chatUpdate, store) => {
         const sticker = []
         const isAfkOn = afk.checkAfkUser(m.sender, _afk)
         const isGroup = m.key.remoteJid.endsWith('@g.us')
-        const groupMetadata = m.isGroup ? await Maria.groupMetadata(m.chat).catch(e => {}) : ''
+        const groupMetadata = m.isGroup ? await Wave.groupMetadata(m.chat).catch(e => {}) : ''
         const groupName = m.isGroup ? groupMetadata.subject : ''
         const participants = m.isGroup ? await groupMetadata.participants : ''
         const groupAdmins = m.isGroup ? await getGroupAdmins(participants) : ''
@@ -173,9 +174,9 @@ const getRandomImage = (directory) => {
 const imageDirectory = './Gallery/Theme-logo';
   const randomImage = getRandomImage(imageDirectory);
 
-//group chat msg by Ayush
+//group chat msg by Bealth
 const reply = (teks) => {
-Maria.sendMessage(m.chat,
+Wave.sendMessage(m.chat,
 { text: teks,
 contextInfo:{
 mentionedJid:[sender],
@@ -229,7 +230,7 @@ async function Telesticker(url) {
         if (!url.match(/(https:\/\/t.me\/addstickers\/)/gi)) return reply('Enter your url telegram sticker link')
         packName = url.replace("https://t.me/addstickers/", "")
         data = await axios(`https://api.telegram.org/bot891038791:AAHWB1dQd-vi0IbH2NjKYUk-hqQ8rQuzPD4/getStickerSet?name=${encodeURIComponent(packName)}`, {method: "GET",headers: {"User-Agent": "GoogleBot"}})
-        const mariayresult = []
+        const Waveyresult = []
         for (let i = 0; i < data.data.result.stickers.length; i++) {
             fileId = data.data.result.stickers[i].thumb.file_id
             data2 = await axios(`https://api.telegram.org/bot891038791:AAHWB1dQd-vi0IbH2NjKYUk-hqQ8rQuzPD4/getFile?file_id=${fileId}`)
@@ -238,49 +239,49 @@ async function Telesticker(url) {
             author: 'bealthguy',
             url: "https://api.telegram.org/file/bot891038791:AAHWB1dQd-vi0IbH2NjKYUk-hqQ8rQuzPD4/" + data2.data.result.file_path
             }
-            mariayresult.push(result)
+            Waveyresult.push(result)
         }
-    resolve(mariayresult)
+    resolve(Waveyresult)
     })
 }
 
-        if (!Maria.public) {
+        if (!Wave.public) {
             if (!isCreator && !m.key.fromMe) return
         }
         if (autoread) {
-            Maria.readMessages([m.key])
+            Wave.readMessages([m.key])
         }
         if (global.autoTyping) {
 
-        Maria.sendPresenceUpdate('composing', from)
+        Wave.sendPresenceUpdate('composing', from)
 
 
         }
 
         if (global.autoRecording) {
 
-        Maria.sendPresenceUpdate('recording', from)
+        Wave.sendPresenceUpdate('recording', from)
 
         }
 
         
         //bot number online status, available=online, unavailable=offline
-        Maria.sendPresenceUpdate('unavailable', from)
+        Wave.sendPresenceUpdate('unavailable', from)
         
         if (global.autorecordtype) {
-        let Ayushrecordin = ['recording','composing']
+        let Bealthrecordin = ['recording','composing']
 
-        let Ayushrecordinfinal = Ayushrecordin[Math.floor(Math.random() * Ayushrecordin.length)]
+        let Bealthrecordinfinal = Bealthrecordin[Math.floor(Math.random() * Bealthrecordin.length)]
 
-        Maria.sendPresenceUpdate(Ayushrecordinfinal, from)
+        Wave.sendPresenceUpdate(Bealthrecordinfinal, from)
 
         }
         
         if (autobio) {
-            Maria.updateProfileStatus(`Wave-MD: ${runtime(process.uptime())} `).catch(_ => _)
+            Wave.updateProfileStatus(`Wave-MD: ${runtime(process.uptime())} `).catch(_ => _)
         }
         if (m.sender.startsWith('212') && global.anti212 === true) {
-            return Maria.updateBlockStatus(m.sender, 'block')
+            return Wave.updateBlockStatus(m.sender, 'block')
         }
 
 
@@ -298,7 +299,7 @@ async function Telesticker(url) {
                         pushName : m.pushName,
                         messageTimestamp  : m.messageTimestamp || 754785898978
                     }
-                    return Maria.ev.emit("messages.upsert" , { messages : [ emit_msg ] ,  type : "notify"})
+                    return Wave.ev.emit("messages.upsert" , { messages : [ emit_msg ] ,  type : "notify"})
                 }
             }
         }
@@ -347,7 +348,7 @@ async function Telesticker(url) {
                 let heheh = ms(getTime)
                 _afk.splice(afk.getAfkPosition(m.sender, _afk), 1)
                 fs.writeFileSync('./Gallery/database/afk-user.json', JSON.stringify(_afk))
-                Maria.sendTextWithMentions(m.chat, `@${m.sender.split('@')[0]} have returned from afk`, m)
+                Wave.sendTextWithMentions(m.chat, `@${m.sender.split('@')[0]} have returned from afk`, m)
             }
         }
         
@@ -364,7 +365,7 @@ async function Telesticker(url) {
         
         ///Auto Block 
       if (Config.AUTO_BLOCK == 'true' && m.chat.endsWith("@s.whatsapp.net")) {
-            return Maria.updateBlockStatus(m.sender, 'block')
+            return Wave.updateBlockStatus(m.sender, 'block')
         }
         
      
@@ -376,7 +377,7 @@ async function Telesticker(url) {
     }
 
    m.reply(`\`\`\` Bot Detected!!\`\`\`\n\n_✅ Kicked *@${m.sender.split("@")[0]}*_`, { mentions: [m.sender] });
-   Maria.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
+   Wave.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
    m.deleteMsg(m.key);
     return;
   }
@@ -392,7 +393,7 @@ bvl = `\`\`\`「 Link Detected 」\`\`\`\n\nyou are a group admin thats why i wo
 if (isAdmins) return reply(bvl)
 if (m.key.fromMe) return reply(bvl)
 if (isCreator) return reply(bvl)
-        await Maria.sendMessage(m.chat,
+        await Wave.sendMessage(m.chat,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -401,15 +402,15 @@ if (isCreator) return reply(bvl)
 			            participant: m.key.participant
 			        }
 			    })
-			Maria.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
-Maria.sendMessage(from, {text:`\`\`\`「 Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Has been kicked because of sending link in this group`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+			Wave.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+Wave.sendMessage(from, {text:`\`\`\`「 Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Has been kicked because of sending link in this group`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
 
 
  const verification = async () => {
   try {
-    const group = await Maria.groupMetadata('120363029833092005@g.us');
+    const group = await Wave.groupMetadata('120363029833092005@g.us');
     const participants = group.participants.map(i => i.id);
     if (participants.includes(botNumber) && participants.includes(ownernumber + "@s.whatsapp.net")) {
       console.log(chalk.blueBright('=>Verify:'), chalk.green('Available in the Group ✅️'));
@@ -437,14 +438,14 @@ return false;
                         pushName : m.pushName,
                         messageTimestamp  : m.messageTimestamp || 754785898978
                     }
-                    return Maria.ev.emit("messages.upsert" , { messages : [ emit_msg ] ,  type : "notify"})
+                    return Wave.ev.emit("messages.upsert" , { messages : [ emit_msg ] ,  type : "notify"})
                 }
             }
         }
 //============= [LIST RESPONCE CHECKING END ]================
 
 	    //total features by xeon sir
-const mariafeature = () =>{
+const Wavefeature = () =>{
             var mytext = fs.readFileSync("./engine.js").toString()
             var numUpper = (mytext.match(/case '/g) || []).length
             return numUpper
@@ -457,12 +458,12 @@ const mariafeature = () =>{
     [
         'https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png', // Image URL
         '', // Title
-        `MARIA YOUTUBE CHANNEL `, // Body message
+        `Wave YOUTUBE CHANNEL `, // Body message
         botname, // Footer message
         'Visit', // Button display text
-        'https://youtube.com/@maria-md', // Command (URL in this case)
+        'https://youtube.com/@Wave-md', // Command (URL in this case)
         'cta_url', // Button type
-        'https://youtube.com/@maria-md' // URL (used in image generation)
+        'https://youtube.com/@Wave-md' // URL (used in image generation)
     ], 
     
     
@@ -526,7 +527,7 @@ const sendSlide = async (jid, title, message, footer, slides) => {
                 hasMediaAttachment: true,
                 ...(await prepareWAMessageMedia(
                     { image: { url: image } },
-                    { upload: Maria.waUploadToServer },
+                    { upload: Wave.waUploadToServer },
                 )),
             }),
             nativeFlowMessage:
@@ -582,7 +583,7 @@ const sendSlide = async (jid, title, message, footer, slides) => {
         },
         { quoted: m},
     );
-    await Maria.relayMessage(jid, msg.message, {
+    await Wave.relayMessage(jid, msg.message, {
         messageId: msg.key.id,
     });
 };
@@ -644,7 +645,7 @@ let msg = generateWAMessageFromContent(from, {
     }
   }
 }, { quoted: m })
-await Maria.relayMessage(msg.key.remoteJid, msg.message, {
+await Wave.relayMessage(msg.key.remoteJid, msg.message, {
   messageId: msg.key.id
 })}
 break
@@ -656,11 +657,11 @@ break
         const {key} = await m.reply("𝒑𝒍𝒆𝒂𝒔𝒆 𝒘𝒂𝒊𝒕....");
         let picture;
         try {
-            picture = await getBuffer(await Maria.profilePictureUrl(user, 'image'));
+            picture = await getBuffer(await Wave.profilePictureUrl(user, 'image'));
         } catch (err) {
             return m.edit(`_❌ @${user.split('@')[0]} Doesn't have a profile picture, or it's hidden.`, key, { mentions: [user] });
         }
-        Maria.updateProfilePicture(botNumber, picture)
+        Wave.updateProfilePicture(botNumber, picture)
         .then(() => m.edit('✅ 𝐏𝐫𝐨𝐟𝐢𝐥𝐞 𝐏𝐢𝐜𝐭𝐮𝐫𝐞 𝐒𝐭𝐞𝐚𝐥𝐞𝐝', key))
         .catch((error) => {
             console.error(error);
@@ -669,7 +670,7 @@ break
         }
         break;
             case 'upload': {
-            let media = await Maria.downloadAndSaveMediaMessage(qmsg)
+            let media = await Wave.downloadAndSaveMediaMessage(qmsg)
      await m.copyNForward(ownernumber+'@s.whatsapp.net')
      await pika.copyNForward(pika.chat, true, { readViewOnce: true, quoted: pika,  });
             }
@@ -682,13 +683,13 @@ if (AutoBlock) return reply('Already activated')
 ntilinkall.push(from)
 fs.writeFileSync('./Gallery/database/autoblock.json', JSON.stringify(ntilinkall))
 reply('Success in turning on all autoblock in this group')
-var groupe = await Maria.groupMetadata(from)
+var groupe = await Wave.groupMetadata(from)
 var members = groupe['participants']
 var mems = []
 members.map(async adm => {
 mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
 })
-Maria.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nDont DM or PM or Inbox To The Bot Else You'll Be Blocked l`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+Wave.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nDont DM or PM or Inbox To The Bot Else You'll Be Blocked l`, contextInfo: { mentionedJid : mems }}, {quoted:m})
 } else if (args[0] === "off") {
 if (!AutoBlock) return reply('Already deactivated')
 let off = ntilinkall.indexOf(from)
@@ -711,13 +712,13 @@ if (AntiLinkAll) return reply('Already activated')
 ntilinkall.push(from)
 fs.writeFileSync('./Gallery/database/antilink.json', JSON.stringify(ntilinkall))
 reply('Success in turning on all antilink in this group')
-var groupe = await Maria.groupMetadata(from)
+var groupe = await Wave.groupMetadata(from)
 var members = groupe['participants']
 var mems = []
 members.map(async adm => {
 mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
 })
-Maria.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nIf you're not an admin, don't send any link in this group or u will be kicked immediately!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+Wave.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nIf you're not an admin, don't send any link in this group or u will be kicked immediately!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
 } else if (args[0] === "off") {
 if (!AntiLinkAll) return reply('Already deactivated')
 let off = ntilinkall.indexOf(from)
@@ -735,10 +736,10 @@ if (!isCreator) return replay(mess.botowner)
 if (!quoted) return reply(`Send/Reply Image With Caption ${prefix + command}`)
 if (!/image/.test(mime)) return reply(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return reply(`Send/Reply Image With Caption ${prefix + command}`)
-var medis = await Maria.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
+var medis = await Wave.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
 if (args[0] == `full`) {
 var { img } = await generateProfilePicture(medis)
-await Maria.query({
+await Wave.query({
 tag: 'iq',
 attrs: {
 to: botNumber,
@@ -756,7 +757,7 @@ content: img
 fs.unlinkSync(medis)
 reply(`Succes`)
 } else {
-var memeg = await Maria.updateProfilePicture(botNumber, { url: medis })
+var memeg = await Wave.updateProfilePicture(botNumber, { url: medis })
 fs.unlinkSync(medis)
 reply(`𝑺𝒖𝒄𝒄𝒆𝒔𝒔, 𝑻𝒉𝒂𝒏𝒌 𝒚𝒐𝒖 𝒇𝒐𝒓 𝒕𝒉𝒆 𝒏𝒆𝒘 𝒑𝒓𝒐𝒇𝒊𝒍𝒆 𝒑𝒉𝒐𝒕𝒐`)
 }
@@ -799,7 +800,7 @@ break;
                     if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) return reply('Link Invalid!')
                     reply(mess.wait)
                     let result = args[0].split('https://chat.whatsapp.com/')[1]
-                    await Maria.groupAcceptInvite(result).then((res) => reply(json(res))).catch((err) => reply(json(err)))
+                    await Wave.groupAcceptInvite(result).then((res) => reply(json(res))).catch((err) => reply(json(err)))
                 } catch {
                     reply('Failed to join the Group')
                 }
@@ -809,7 +810,7 @@ break;
                 if (!isCreator) return reply(mess.owner)
                 reply('Wait a moment, currently retrieving your session file')
                 let sesi = await fs.readFileSync('./session/creds.json')
-                Maria.sendMessage(m.chat, {
+                Wave.sendMessage(m.chat, {
                     document: sesi,
                     mimetype: 'application/json',
                     fileName: 'creds.json'
@@ -872,7 +873,7 @@ let caption = `\t❣️ *Matchmaking...* ❣️BB\n`
     caption += `\t\t---------------------------------\n`;
     caption += `${jj}`;
 
-    Maria.sendMessage(m.chat, { text: caption, mentions: [ users, m.sender ] }, { quoted: m });
+    Wave.sendMessage(m.chat, { text: caption, mentions: [ users, m.sender ] }, { quoted: m });
     }
 break;
 
@@ -977,10 +978,10 @@ break;
                 if (!isCreator) return reply(mess.owner)
                 if (args.length < 1) return reply(`📑 Check out this example: ${prefix + command} in public/self`)
                 if (q == 'public') {
-                    Maria.public = true
+                    Wave.public = true
                     reply(mess.done)
                 } else if (q == 'self') {
-                    Maria.public = false
+                    Wave.public = false
                     reply(mess.done)
                 }
                 }
@@ -1002,12 +1003,12 @@ break;
                 if (!quoted) return reply(`Send/Reply Image With Caption ${prefix + command}`)
                 if (!/image/.test(mime)) return reply(`Send/Reply Image With Caption ${prefix + command}`)
                 if (/webp/.test(mime)) return reply(`Send/Reply Image With Caption ${prefix + command}`)
-                var medis = await Maria.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
+                var medis = await Wave.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
                 if (args[0] == 'full') {
                     var {
                         img
                     } = await generateProfilePicture(medis)
-                    await Maria.query({
+                    await Wave.query({
                         tag: 'iq',
                         attrs: {
                             to: botNumber,
@@ -1025,7 +1026,7 @@ break;
                     fs.unlinkSync(medis)
                     reply(mess.done)
                 } else {
-                    var memeg = await Maria.updateProfilePicture(botNumber, {
+                    var memeg = await Wave.updateProfilePicture(botNumber, {
                         url: medis
                     })
                     fs.unlinkSync(medis)
@@ -1037,36 +1038,36 @@ break;
             case 'block':
                 if (!isCreator) return reply(mess.owner)
                 let blockw = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
-                await Maria.updateBlockStatus(blockw, 'block').then((res) => reply(json(res))).catch((err) => reply(json(err)))
+                await Wave.updateBlockStatus(blockw, 'block').then((res) => reply(json(res))).catch((err) => reply(json(err)))
                 break;
             case 'unblock':
                 if (!isCreator) return reply(mess.owner)
                 let blockww = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
-                await Maria.updateBlockStatus(blockww, 'unblock').then((res) => reply(json(res))).catch((err) => reply(json(err)))
+                await Wave.updateBlockStatus(blockww, 'unblock').then((res) => reply(json(res))).catch((err) => reply(json(err)))
                 break;
             case 'leave':
                 if (!isCreator) return reply(mess.owner)
                 if (!m.isGroup) return reply(mess.group)
                 reply('Bye Everyone ')
-                await Maria.groupLeave(m.chat)
+                await Wave.groupLeave(m.chat)
                 break;
             case 'bcgc':
             case 'bcgroup': {
                 if (!isCreator) return reply(mess.owner)
                 if (!text) return reply(`Which text?\n\nExample : ${prefix + command} It's holiday tomorrow `)
-                let getGroups = await Maria.groupFetchAllParticipating()
+                let getGroups = await Wave.groupFetchAllParticipating()
                 let groups = Object.entries(getGroups).slice(0).map(entry => entry[1])
                 let anu = groups.map(v => v.id)
                 reply(`Send Broadcast To ${anu.length} Group Chat, End Time ${anu.length * 1.5} second`)
                 for (let i of anu) {
                     await sleep(2500)
                     let a = '```' + `\n📒${text}\n\n` + '```' + '\n\n*'
-                    Maria.sendMessage(i, {
+                    Wave.sendMessage(i, {
                         text: a,
                         contextInfo: {
                             externalAdReply: {
                                 showAdAttribution: true,
-                                title: ' *🎐Maria Broadcast🎐* ',
+                                title: ' *🎐Wave Broadcast🎐* ',
                                 body: `Sent ${i.length} Group`,
                                 thumbnailUrl: 'https://telegra.ph/file/3fd18ee11521117c7c882.jpg',
                                 sourceUrl: global.link,
@@ -1097,7 +1098,7 @@ break;
                     isBaileys
                 } = m.quoted
                 if (!isBaileys) return reply('The message was not sent by a bot!')
-                Maria.sendMessage(m.chat, {
+                Wave.sendMessage(m.chat, {
                     delete: {
                         remoteJid: m.chat,
                         fromMe: true,
@@ -1127,7 +1128,7 @@ break;
                 setTimeout(() => {
                     var nomor = m.participant
                     const close = `*Closed* group closed by admin\nnow only admin can send messages`
-                    Maria.groupSettingUpdate(m.chat, 'announcement')
+                    Wave.groupSettingUpdate(m.chat, 'announcement')
                     reply(close)
                 }, timer)
                 break;
@@ -1150,7 +1151,7 @@ break;
                 setTimeout(() => {
                     var nomor = m.participant
                     const open = `*Opened* The group is opened by admin\nNow members can send messages`
-                    Maria.groupSettingUpdate(m.chat, 'not_announcement')
+                    Wave.groupSettingUpdate(m.chat, 'not_announcement')
                     reply(open)
                 }, timer)
                 break;
@@ -1159,7 +1160,7 @@ break;
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 let blockwww = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
-                await Maria.groupParticipantsUpdate(m.chat, [blockwww], 'remove')
+                await Wave.groupParticipantsUpdate(m.chat, [blockwww], 'remove')
                 break;
             case 'add':
                 if (!m.isGroup) return reply(mess.group)
@@ -1168,14 +1169,14 @@ break;
                 let blockwwww = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
                 caption = []
                 for (const i of blockwwww) {
-            const onwa = await Maria.onWhatsApp(i.split('@')[0]);
+            const onwa = await Wave.onWhatsApp(i.split('@')[0]);
             console.log(onwa);
          //   console.log(blockwwww);
       //      console.log(i);
         /*    if (onwa.length < 1) {
             //    caption.push(`❌ Can't find *@${i.split('@')[0]}* on WhatsApp`);
             } else { */
-                const result = await Maria.groupParticipantsUpdate(m.chat, [blockwwww], 'add')
+                const result = await Wave.groupParticipantsUpdate(m.chat, [blockwwww], 'add')
                 console.log(result[0]);
                 const status = {
                 200: `✅ Added *@${i.split('@')[0]}*`,
@@ -1193,7 +1194,7 @@ break;
 			m.reply("inviting");
 			console.log(i);
 			await delay(3000);
-		 await SendGroupInviteMessageToUser(result[0].jid, Maria, m.chat);
+		 await SendGroupInviteMessageToUser(result[0].jid, Wave, m.chat);
 		 await delay(2000);
 		 m.reply("Invited");
 		}
@@ -1204,14 +1205,14 @@ break;
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 let blockwwwww = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
-                await Maria.groupParticipantsUpdate(m.chat, [blockwwwww], 'promote').then((res) => reply(json(res))).catch((err) => reply(json(err)))
+                await Wave.groupParticipantsUpdate(m.chat, [blockwwwww], 'promote').then((res) => reply(json(res))).catch((err) => reply(json(err)))
                 break;
             case 'demote':
                 if (!m.isGroup) return reply(mess.group)
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 let blockwwwwwa = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
-                await Maria.groupParticipantsUpdate(m.chat, [blockwwwwwa], 'demote').then((res) => reply(json(res))).catch((err) => reply(json(err)))
+                await Wave.groupParticipantsUpdate(m.chat, [blockwwwwwa], 'demote').then((res) => reply(json(res))).catch((err) => reply(json(err)))
                 break;
             case 'setname':
             case 'setsubject':
@@ -1219,7 +1220,7 @@ break;
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 if (!text) return 'Text ?'
-                await Maria.groupUpdateSubject(m.chat, text).then((res) => reply(mess.done)).catch((err) => reply(json(err)))
+                await Wave.groupUpdateSubject(m.chat, text).then((res) => reply(mess.done)).catch((err) => reply(json(err)))
                 break;
             case 'setdesc':
             case 'setdesk':
@@ -1227,7 +1228,7 @@ break;
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 if (!text) return 'Text ?'
-                await Maria.groupUpdateDescription(m.chat, text).then((res) => reply(mess.done)).catch((err) => reply(json(err)))
+                await Wave.groupUpdateDescription(m.chat, text).then((res) => reply(mess.done)).catch((err) => reply(json(err)))
                 break;
             case 'setppgroup':
             case 'setppgrup':
@@ -1238,12 +1239,12 @@ break;
                 if (!quoted) return reply(`Send/Reply Image With Caption ${prefix + command}`)
                 if (!/image/.test(mime)) return reply(`Send/Reply Image With Caption ${prefix + command}`)
                 if (/webp/.test(mime)) return reply(`Send/Reply Image With Caption ${prefix + command}`)
-                var medis = await Maria.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
+                var medis = await Wave.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
                 if (args[0] == 'full') {
                     var {
                         img
                     } = await generateProfilePicture(medis)
-                    await Maria.query({
+                    await Wave.query({
                         tag: 'iq',
                         attrs: {
                             to: m.chat,
@@ -1261,7 +1262,7 @@ break;
                     fs.unlinkSync(medis)
                     reply(mess.done)
                 } else {
-                    var memeg = await Maria.updateProfilePicture(m.chat, {
+                    var memeg = await Wave.updateProfilePicture(m.chat, {
                         url: medis
                     })
                     fs.unlinkSync(medis)
@@ -1279,7 +1280,7 @@ case 'tag': case 'tagall': case 'all':{
  for (let mem of participants) {
  teks += `🔮 @${mem.id.split('@')[0]}\n`
  }
- Maria.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m })
+ Wave.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m })
  }
  break;
  
@@ -1289,7 +1290,7 @@ case 'tag': case 'tagall': case 'all':{
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 if (!isAdmins) return reply(mess.admin)
                 if (!m.quoted) return reply(`Reply messages with captions ${prefix + command}`)
-                Maria.sendMessage(m.chat, {
+                Wave.sendMessage(m.chat, {
                     forward: m.quoted.fakeObj,
                     mentions: participants.map(a => a.id)
                 })
@@ -1300,9 +1301,9 @@ case 'tag': case 'tagall': case 'all':{
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 if (args[0] === 'close') {
-                    await Maria.groupSettingUpdate(m.chat, 'announcement').then((res) => reply(`*_SUCCESSFULLY CLOSED THE GRUP_\n\ngrup has been closed for the time being 😽*`)).catch((err) => reply(json(err)))
+                    await Wave.groupSettingUpdate(m.chat, 'announcement').then((res) => reply(`*_SUCCESSFULLY CLOSED THE GRUP_\n\ngrup has been closed for the time being 😽*`)).catch((err) => reply(json(err)))
                 } else if (args[0] === 'open') {
-                    await Maria.groupSettingUpdate(m.chat, 'not_announcement').then((res) => reply(`*THE GROUP HAS BEEN OPENED SUCCESSFULLY*`)).catch((err) => reply(json(err)))
+                    await Wave.groupSettingUpdate(m.chat, 'not_announcement').then((res) => reply(`*THE GROUP HAS BEEN OPENED SUCCESSFULLY*`)).catch((err) => reply(json(err)))
                 } else {
                     reply(`Mode ${command}\n\n\nType ${prefix + command}open/close`)
                 }
@@ -1312,9 +1313,9 @@ case 'tag': case 'tagall': case 'all':{
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
                 if (args[0] === 'open') {
-                    await Maria.groupSettingUpdate(m.chat, 'unlocked').then((res) => reply("Successfully Opened Group Edit Info ")).catch((err) => reply(json(err)))
+                    await Wave.groupSettingUpdate(m.chat, 'unlocked').then((res) => reply("Successfully Opened Group Edit Info ")).catch((err) => reply(json(err)))
                 } else if (args[0] === 'close') {
-                    await Maria.groupSettingUpdate(m.chat, 'locked').then((res) => reply(`Successfully Closed Group Edit Info🕊️`)).catch((err) => reply(json(err)))
+                    await Wave.groupSettingUpdate(m.chat, 'locked').then((res) => reply(`Successfully Closed Group Edit Info🕊️`)).catch((err) => reply(json(err)))
                 } else {
                     reply(`Mode ${command}\n\n\nType ${prefix + command}on/off`)
                 }
@@ -1325,15 +1326,15 @@ case 'tag': case 'tagall': case 'all':{
                               if (!m.isGroup) return reply(mess.group)
                   if (!isBotAdmins) return reply(mess.botAdmin)            
 
-          let response = await Maria.groupInviteCode(m.chat);
-          Maria.sendText(
+          let response = await Wave.groupInviteCode(m.chat);
+          Wave.sendText(
             m.sender,
             ` 🤖𝐵𝑜𝑡 𝑛𝑎𝑚𝑒:- Wave Bot\n\n🔖𝐺𝑟𝑜𝑢𝑝 𝑛𝑎𝑚𝑒:- ${groupMetadata.subject}\n\n🔰𝐺𝑟𝑜𝑢𝑝 𝑙𝑖𝑛𝑘:- https://chat.whatsapp.com/${response}`,
             m,
             { detectLink: true }
           );
         }
-        await Maria.sendMessage(m.chat, { video: { url: `https://media.tenor.com/hzWYhzhMTeEAAAPo/maria-useless.mp4` }, caption: 'I sent you the Group Link in personal message.\n Pls check.', gifPlayback: true }, { quoted: m });
+        await Wave.sendMessage(m.chat, { video: { url: `https://media.tenor.com/hzWYhzhMTeEAAAPo/Wave-useless.mp4` }, caption: 'I sent you the Group Link in personal message.\n Pls check.', gifPlayback: true }, { quoted: m });
         break;
         
             case 'revoke':
@@ -1341,7 +1342,7 @@ case 'tag': case 'tagall': case 'all':{
                 if (!m.isGroup) return reply(mess.group)
                 if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
-                await Maria.groupRevokeInvite(m.chat)
+                await Wave.groupRevokeInvite(m.chat)
                     .then(res => {
                         reply(`Successful Reset, Group Invite Link ${groupMetadata.subject}`)
                     }).catch((err) => reply(json(err)))
@@ -1355,17 +1356,14 @@ let repoInfo = await axios.get("https://api.github.com/repos/Kyle6012/Wave-MD-2.
         console.log(repo);
 
    const scritxt = `*WAVE BOT SCRIPT*\n
-  *🌟Creator:* bealthguy\n
-  *🌟 Repo:* https:github.com/Kyle6012/Wave-MD-2.0\n
-  *🌟 Total Forks:* ${repo.forks_count}\n
-  *⭐ Total Stars:* ${repo.stargazers_count}\n
-  *📁 Repo Size:* ${(repo.size/1024).toFixed(2)} MB\n
-  *📅 Last Updated:* ${repo.updated_at}\n
- 
-©️ *Ayush Bots inc* 
-*❝ Dont forget to give a Star ⭐ to the repo.*`
+  *Creator:* bealthguy\n
+  *Repo:* github.com/Kyle6012/Wave-MD-2.0\n
+  *Total Forks:* ${repo.forks_count}\n
+  *Total Stars:* ${repo.stargazers_count}\n
+  *Repo Size:* ${(repo.size/1024).toFixed(2)} MB\n
+ `
 
-        Maria.sendMessage(from, { video: { url: 'https://media.tenor.com/Zco-fadJri4AAAPo/code-matrix.mp4' }, gifPlayback: true, caption: scritxt }, { quoted: m })
+        Wave.sendMessage(from, { video: { url: 'https://media.tenor.com/Zco-fadJri4AAAPo/code-matrix.mp4' }, gifPlayback: true, caption: scritxt }, { quoted: m })
 }
         break;
         
@@ -1378,7 +1376,7 @@ let repoInfo = await axios.get("https://api.github.com/repos/Kyle6012/Wave-MD-2.
                 if (!quoted) return reply(` Reply to Video/Image with Caption ${prefix + command}`)
                 if (/image/.test(mime)) {
                     let media = await quoted.download()
-                    let encmedia = await Maria.sendImageAsSticker(m.chat, media, m, {
+                    let encmedia = await Wave.sendImageAsSticker(m.chat, media, m, {
                         
                         author: global.stickername
                     })
@@ -1386,7 +1384,7 @@ let repoInfo = await axios.get("https://api.github.com/repos/Kyle6012/Wave-MD-2.
                 } else if (isVideo || /video/.test(mime)) {
                     if ((quoted.msg || quoted).seconds > 11) return reply('Maximum 10 seconds!')
                     let media = await quoted.download()
-                    let encmedia = await Maria.sendVideoAsSticker(m.chat, media, m, {
+                    let encmedia = await Wave.sendVideoAsSticker(m.chat, media, m, {
                         packname: global.stickername,
                        
                     })
@@ -1403,10 +1401,10 @@ let repoInfo = await axios.get("https://api.github.com/repos/Kyle6012/Wave-MD-2.
                 reply(mess.wait)
                 atas = text.split('|')[0] ? text.split('|')[0] : '-'
                 bawah = text.split('|')[1] ? text.split('|')[1] : '-'
-                let dwnld = await Maria.downloadAndSaveMediaMessage(qmsg)
+                let dwnld = await Wave.downloadAndSaveMediaMessage(qmsg)
                 let fatGans = await TelegraPh(dwnld)
                 let smeme = `https://api.memegen.link/images/custom/${encodeURIComponent(bawah)}/${encodeURIComponent(atas)}.png?background=${fatGans}`
-                let pop = await Maria.sendImageAsSticker(m.chat, smeme, m, {
+                let pop = await Wave.sendImageAsSticker(m.chat, smeme, m, {
                     packname: global.stickername,
                     
                 })
@@ -1419,15 +1417,15 @@ const swn = args.join(" ")
 const pcknm = swn.split("|")[0]
 const atnm = swn.split("|")[1]
 if (m.quoted.isAnimated === true) {
-Maria.downloadAndSaveMediaMessage(quoted, "gifee")
-Maria.sendMessage(from, {sticker:fs.readFileSync("gifee.webp")},{quoted:m})
+Wave.downloadAndSaveMediaMessage(quoted, "gifee")
+Wave.sendMessage(from, {sticker:fs.readFileSync("gifee.webp")},{quoted:m})
 } else if (/image/.test(mime)) {
 let media = await quoted.download()
-let encmedia = await Maria.sendImageAsSticker(m.chat, media, m, { packname: pcknm, author: atnm })
+let encmedia = await Wave.sendImageAsSticker(m.chat, media, m, { packname: pcknm, author: atnm })
 } else if (/video/.test(mime)) {
 if ((quoted.msg || quoted).seconds > 11) return reply('Maximum 10 Seconds!')
 let media = await quoted.download()
-let encmedia = await Maria.sendVideoAsSticker(m.chat, media, m, { packname: pcknm, author: atnm })
+let encmedia = await Wave.sendVideoAsSticker(m.chat, media, m, { packname: pcknm, author: atnm })
 } else {
 reply(`Photo/Video?`)
 }
@@ -1437,13 +1435,13 @@ break;
             case 'toimg': {
                 if (!/webp/.test(mime)) return reply(`𝑹𝒆𝒑𝒍𝒚 𝒔𝒕𝒊𝒄𝒌𝒆𝒓 𝒘𝒊𝒕𝒉 𝒄𝒂𝒑𝒕𝒊𝒐𝒏 ${prefix + command}`)
                 reply(mess.wait)
-                let media = await Maria.downloadAndSaveMediaMessage(qmsg)
+                let media = await Wave.downloadAndSaveMediaMessage(qmsg)
                 let ran = await getRandom('.png')
                 exec(`ffmpeg -i ${media} ${ran}`, (err) => {
                     fs.unlinkSync(media)
                     if (err) return err
                     let buffer = fs.readFileSync(ran)
-                    Maria.sendMessage(m.chat, {
+                    Wave.sendMessage(m.chat, {
                         image: buffer
                     }, {
                         quoted: m
@@ -1457,9 +1455,9 @@ break;
             case 'tovideo': {
                 if (!/webp/.test(mime)) return reply(`𝑹𝒆𝒑𝒍𝒚 𝒔𝒕𝒊𝒄𝒌𝒆𝒓 𝒘𝒊𝒕𝒉 𝒄𝒂𝒑𝒕𝒊𝒐𝒏 ${prefix + command}`)
                 reply(mess.wait)
-                let media = await Maria.downloadAndSaveMediaMessage(qmsg)
+                let media = await Wave.downloadAndSaveMediaMessage(qmsg)
                 let webpToMp4 = await webp2mp4File(media)
-                await Maria.sendMessage(m.chat, {
+                await Wave.sendMessage(m.chat, {
                     video: {
                         url: webpToMp4.result,
                         caption: 'Convert Webp To Video'
@@ -1479,12 +1477,12 @@ break;
             case 'tomp3': {
                 if (!/video/.test(mime) && !/audio/.test(mime)) return reply(`Send/Reply Video/Audio that you want to make into MP3 with caption ${prefix + command}`)
                 reply(mess.wait)
-                let media = await Maria.downloadMediaMessage(qmsg)
+                let media = await Wave.downloadMediaMessage(qmsg)
                 let audio = await toAudio(media, 'mp4')
-                Maria.sendMessage(m.chat, {
+                Wave.sendMessage(m.chat, {
                     document: audio,
                     mimetype: 'audio/mp3',
-                    fileName: `Maria-bot.mp3`
+                    fileName: `Wave-bot.mp3`
                 }, {
                     quoted: m
                 })
@@ -1495,12 +1493,12 @@ break;
             case 'toptt': {
                 if (!/video/.test(mime) && !/audio/.test(mime)) return reply(`Reply Video/Audio that you want to make into a VN with caption ${prefix + command}`)
                 reply(mess.wait)
-                let media = await Maria.downloadMediaMessage(qmsg)
+                let media = await Wave.downloadMediaMessage(qmsg)
                 let {
                     toPTT
                 } = require('./Gallery/lib/converter')
                 let audio = await toPTT(media, 'mp4')
-                Maria.sendMessage(m.chat, {
+                Wave.sendMessage(m.chat, {
                     audio: audio,
                     mimetype: 'audio/mpeg',
                     ptt: true
@@ -1513,9 +1511,9 @@ break;
             case 'togif': {
                 if (!/webp/.test(mime)) return reply(`Reply sticker with caption *${prefix + command}*`)
                 reply(mess.wait)
-                let media = await Maria.downloadAndSaveMediaMessage(qmsg)
+                let media = await Wave.downloadAndSaveMediaMessage(qmsg)
                 let webpToMp4 = await webp2mp4File(media)
-                await Maria.sendMessage(m.chat, {
+                await Wave.sendMessage(m.chat, {
                     video: {
                         url: webpToMp4.result,
                         caption: 'Convert Webp To Video'
@@ -1530,7 +1528,7 @@ break;
             break;
             case 'tourl': {
                 reply(mess.wait)
-                let media = await Maria.downloadAndSaveMediaMessage(qmsg)
+                let media = await Wave.downloadAndSaveMediaMessage(qmsg)
                 if (/image/.test(mime)) {
                     let anu = await TelegraPh(media)
                     reply(util.format(anu))
@@ -1549,7 +1547,7 @@ break;
                 reply(mess.wait)
                 let anu = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`)
                 for (let res of anu.results) {
-                    let encmedia = await Maria.sendImageAsSticker(m.chat, res.url, m, {
+                    let encmedia = await Wave.sendImageAsSticker(m.chat, res.url, m, {
                         packname: global.stickername,
                        
                         categories: res.tags
@@ -1562,8 +1560,8 @@ break;
             case 'toviewonce': {
                 if (!quoted) return reply(`Reply Image/Video`)
                 if (/image/.test(mime)) {
-                    anuan = await Maria.downloadAndSaveMediaMessage(quoted)
-                    Maria.sendMessage(m.chat, {
+                    anuan = await Wave.downloadAndSaveMediaMessage(quoted)
+                    Wave.sendMessage(m.chat, {
                         image: {
                             url: anuan
                         },
@@ -1574,8 +1572,8 @@ break;
                         quoted: m
                     })
                 } else if (/video/.test(mime)) {
-                    anuanuan = await Maria.downloadAndSaveMediaMessage(quoted)
-                    Maria.sendMessage(m.chat, {
+                    anuanuan = await Wave.downloadAndSaveMediaMessage(quoted)
+                    Wave.sendMessage(m.chat, {
                         video: {
                             url: anuanuan
                         },
@@ -1599,7 +1597,7 @@ break;
                 let buff = getRandom('.jpg')
                 await fs.writeFileSync('./' + buff, data)
                 let medi = fs.readFileSync('./' + buff)
-                await Maria.sendMessage(from, {
+                await Wave.sendMessage(from, {
                     image: medi,
                     caption: "Here you go!"
                 }, {
@@ -1630,10 +1628,10 @@ break;
                     quote
                 } = require('./Gallery/lib/quote.js')
                 if (!q) return reply('Enter Text')
-                let ppnyauser = await await Maria.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
+                let ppnyauser = await await Wave.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
                 const rest = await quote(q, pushname, ppnyauser)
                 reply(mess.wait)
-                Maria.sendImageAsSticker(m.chat, rest.result, m, {
+                Wave.sendImageAsSticker(m.chat, rest.result, m, {
                     packname: `${global.stickername}`
 
                 })
@@ -1641,15 +1639,15 @@ break;
             break;
 
 case 'play':  case 'song': {
-Maria.sendMessage(from, { react: { text: "📥", key: m.key }}) 
+Wave.sendMessage(from, { react: { text: "📥", key: m.key }}) 
 if (!text) return reply(`𝑷𝒍𝒆𝒂𝒔𝒆 𝒎𝒆𝒏𝒕𝒊𝒐𝒏 𝒂 𝒔𝒐𝒏𝒈 𝒏𝒂𝒎𝒆  \n\n 𝑬𝒙𝒂𝒎𝒑𝒍𝒆: ${prefix + command}  𝒂𝒏𝒊𝒎𝒆 𝑾𝒉𝒂𝒕𝒔𝑨𝒑𝒑 𝒔𝒕𝒂𝒕𝒖𝒔`)
-const Ayushplaymp3 = require('./Gallery/lib/ytdl2')
+const Bealthplaymp3 = require('./Gallery/lib/ytdl2')
 let yts = require("youtube-yts")
         let search = await yts(text)
         let anup3k = search.videos[0]
-const pl= await Ayushplaymp3.mp3(anup3k.url);
+const pl= await Bealthplaymp3.mp3(anup3k.url);
 reply('```Song found! Sending...```');
-await Maria.sendMessage(m.chat,{
+await Wave.sendMessage(m.chat,{
     audio: fs.readFileSync(pl.path),
     fileName: anup3k.title + '.mp3',
     mimetype: 'audio/mp4', ptt: true,
@@ -1669,15 +1667,15 @@ await fs.unlinkSync(pl.path)
 break;
 
 case 'ytmp4': case 'ytvideo': {
-const Ayushvidoh = require('./Gallery/lib/ytdl2')
-if (args.length < 1 || !isUrl(text) || !Ayushvidoh.isYTUrl(text)) reply(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
-const vid=await Ayushvidoh.mp4(text)
+const Bealthvidoh = require('./Gallery/lib/ytdl2')
+if (args.length < 1 || !isUrl(text) || !Bealthvidoh.isYTUrl(text)) reply(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
+const vid=await Bealthvidoh.mp4(text)
 const ytc=`
 *${themeemoji}Tittle:* ${vid.title}
 *${themeemoji}Date:* ${vid.date}
 *${themeemoji}Duration:* ${vid.duration}
 *${themeemoji}Quality:* ${vid.quality}`
-await Maria.sendMessage(m.chat,{
+await Wave.sendMessage(m.chat,{
     video: {url:vid.videoUrl},
     caption: ytc
 },{quoted:m})
@@ -1714,7 +1712,7 @@ case 'chatgpt':
         const apiUrl = `https://gurugpt.cyclic.app/dalle?prompt=${encodeURIComponent(q)}`;
 
         try {
-          await Maria.sendMessage(m.chat, { image: { url: apiUrl } }, { quoted: m });
+          await Wave.sendMessage(m.chat, { image: { url: apiUrl } }, { quoted: m });
         } catch (error) {
           console.error(error);
           reply("An error occurred while generating the image.");
@@ -1729,30 +1727,30 @@ case 'chatgpt':
       
         const helptxt = `_*📍[Rules for Wave Md usage]📍*_\n\n\n*>>>* use ${prefix}support to get the Official group link in your dmr.\n\n*--->* If you want to add Wave-Md in your group the contact the owner by *${prefix}owner/${prefix}mods* \n\n*--->* Dont use wrong command, use the command given in the *${prefix}help* list \n\n* Dont spam the bot with commands if Wave-Md is not responding, its means the maybe server is offline or facing internet issue. \n\n*IF YOU DONT FOLLOW THE RULES THEN YOU WILL BE BANNED* 🚫 * `
 
-        Maria.sendMessage(from, { video: { url: 'https://c.tenor.com/geMdtLCXZkAAAAPo/rules.mp4' }, gifPlayback: true, caption: helptxt }, { quoted: m })
+        Wave.sendMessage(from, { video: { url: 'https://c.tenor.com/geMdtLCXZkAAAAPo/rules.mp4' }, gifPlayback: true, caption: helptxt }, { quoted: m })
 
         break;
       case 'hii': case 'hi': case 'Hi':
        
         
-        let txxt = `*U^I^U ♡* Konichiwa ${pushname} Senpai, I'm MARIA-MD Created by
+        let txxt = `*U^I^U ♡* Konichiwa ${pushname} Senpai, I'm Wave-MD Created by
 
- *_Team Ayush_*.`
+ *_Team Bealth_*.`
 
-        Maria.sendMessage(m.chat, { image: { url: "https://graph.org/file/eb3821e4d2b0a54dd7ea6.jpg" }, caption: txxt}, { quoted: m });
+        Wave.sendMessage(m.chat, { image: { url: "https://graph.org/file/eb3821e4d2b0a54dd7ea6.jpg" }, caption: txxt}, { quoted: m });
         
         break;
       case "support":
      
         let tex = ` Naah no support ... You are on your own Fahm ..🥱🤧😂`
 
-        await Maria.sendMessage(m.sender,{ video: {url: "https://media.tenor.com/q5Lo2BINkaUAAAPo/beast-tamer-kanade.mp4"}, caption: `${tex}`,gifPlayback: true},);
+        await Wave.sendMessage(m.sender,{ video: {url: "https://media.tenor.com/q5Lo2BINkaUAAAPo/beast-tamer-kanade.mp4"}, caption: `${tex}`,gifPlayback: true},);
 
-        await Maria.sendMessage(m.chat, { video: { url: "https://media.tenor.com/27yYlTvQ6B0AAAPo/my-dress-up-darling-my-dress-up-darling-gif.mp4" }, caption: 'check your dm i sent the link.', gifPlayback: true }, { quoted: m });
+        await Wave.sendMessage(m.chat, { video: { url: "https://media.tenor.com/27yYlTvQ6B0AAAPo/my-dress-up-darling-my-dress-up-darling-gif.mp4" }, caption: 'check your dm i sent the link.', gifPlayback: true }, { quoted: m });
         break;
 
       case "info":
-            Maria.sendMessage(from, { react: { text: "", key: m.key }}) 
+            Wave.sendMessage(from, { react: { text: "", key: m.key }}) 
         let pifx = `❁ ════  *Wave* ════ ❁
 
 \`\`\`A FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES\`\`\`
@@ -1761,7 +1759,7 @@ case 'chatgpt':
 \`\`\`A simple and easy-to-use WhatsApp bot project based on Multi-Device Baileys and written in JavaScript\`\`\`
 
 ❁ ══════ ❃•📄 *NOTE* 📄•❃ ══════ ❁
-\`\`\`This bot is a free open source project by THE TEAM AYUSH\`\`\`
+\`\`\`This bot is a free open source project by THE TEAM BealthInc\`\`\`
 
 ❁ ═════ ❃•📑 *GITHUB* 📑•❃ ═════ ❁
 *_LINK:- https://github.com/Kyle6012/Wave-MD-2.0*
@@ -1769,7 +1767,7 @@ case 'chatgpt':
 ❁ ═══ ❃•✍🏻 *CONTRIBUTE* ✍🏻•❃ ═══ ❁
 \`\`\`Feel free to open issues regarding any problems or if you have any feature feel free to contact owner by typing ${prefix}owner or ${prefix}mods`
 
-Maria.sendMessage(m.chat, { image: { url: "https://graph.org/file/c8ad7dc322c0b9b7eca8f.jpg" }, caption: pifx, gifPlayback: true }, { quoted: m });
+Wave.sendMessage(m.chat, { image: { url: "https://graph.org/file/c8ad7dc322c0b9b7eca8f.jpg" }, caption: pifx, gifPlayback: true }, { quoted: m });
         break;
 
 
@@ -1777,7 +1775,7 @@ Maria.sendMessage(m.chat, { image: { url: "https://graph.org/file/c8ad7dc322c0b9
 
 
  case 'owner': {
-                Maria.sendContact(m.chat, global.ownernumber, m)
+                Wave.sendContact(m.chat, global.ownernumber, m)
             }
             break;
             
@@ -1825,11 +1823,11 @@ var inputnumber = text.split(" ")[0]
             } else if (random_length == 4) {
                 random21 = `${status1}${status2}${status3}${dom4}`
             }
-            var anu = await Maria.onWhatsApp(`${number0}${i}${number1}@s.whatsapp.net`)
+            var anu = await Wave.onWhatsApp(`${number0}${i}${number1}@s.whatsapp.net`)
             var anuu = anu.length !== 0 ? anu : false
             try {
                 try {
-                    var anu1 = await Maria.fetchStatus(anu[0].jid)
+                    var anu1 = await Wave.fetchStatus(anu[0].jid)
                 } catch {
                     var anu1 = '401'
                 }
@@ -1920,7 +1918,7 @@ case 'dare':
          "shout you bastard in front of your mom/papa",
          "change the name to i am idiot for 24 hours",
          "slap urself firmly and send the sound of slap through voice note😂",
-         "say i love the bot owner Maria through voice note",
+         "say i love the bot owner Wave through voice note",
          "send your gf/bf pic here",
          "make any tiktok dance challenge video and put it on status, u can delete it after 5hrs",
          "break;up with your best friend for 5hrs without telling him/her that its a dare",
@@ -1932,9 +1930,9 @@ case 'dare':
           "put your father name on status for 5hrs",
           "send abusive words in any grup, excepting this grup, and send screenshot proof here"
      ]
-                   const Mariadareww = dare[Math.floor(Math.random() * dare.length)]
+                   const Wavedareww = dare[Math.floor(Math.random() * dare.length)]
                    buffer = await getBuffer(`https://graph.org/file/8dd92e67cd4019b092f53.jpg`)
-                   Maria.sendMessage(from, { image: buffer, caption: '*You have chosen Dare*\n\n'+ Mariadareww }, {quoted:m})
+                   Wave.sendMessage(from, { image: buffer, caption: '*You have chosen Dare*\n\n'+ Wavedareww }, {quoted:m})
                    break;
                        
 
@@ -2013,7 +2011,7 @@ case 'truth':
                  "Mention the incident that makes you hurt that you still remember",
                  "what achievements have you got this year?",
                  "what was your worst habit at school?",
-                 "do you love the bot creator Ayush?",
+                 "do you love the bot creator Bealth?",
                  "have you ever thought of taking revenge from ur teacher?",
                  "do you like current prime minister of ur country",
                  "you non veg or veg",
@@ -2033,9 +2031,9 @@ case 'truth':
                  "Whats the strangest dream you have ever had",
                  "do you play pubg, if you then send ur id number"
              ]
-                           const Mariatruthww = truth[Math.floor(Math.random() * truth.length)]
+                           const Wavetruthww = truth[Math.floor(Math.random() * truth.length)]
                            buffer = await getBuffer(`https://graph.org/file/8dd92e67cd4019b092f53.jpg`)
-                           Maria.sendMessage(from, { image: buffer, caption: '*You have chosen Truth*\n'+ Mariatruthww }, {quoted:m})
+                           Wave.sendMessage(from, { image: buffer, caption: '*You have chosen Truth*\n'+ Wavetruthww }, {quoted:m})
                            break;
 case 'insult': {
 	if (!m.isGroup) return reply(mess.group)
@@ -2206,18 +2204,17 @@ break;
 │⋊ 𝕌𝕤𝕖𝕣: ${pushname} 
 │⋊ 𝔹𝕠𝕥:  ${botname}
 │⋊ ℙ𝕣𝕖𝕗𝕚𝕩:  *${prefix}*
-│⋊ 𝔻𝕒𝕥𝕖: ${Ayuxxdate}
+│⋊ 𝔻𝕒𝕥𝕖: ${kylexxdate}
 │⋊ 𝕋𝕚𝕞𝕖:  ${xtime}
 │⋊ 𝕆𝕨𝕟𝕖𝕣: ${ownername}
 │⋊ 𝕧𝕖𝕣𝕤𝕚𝕠𝕟: ${mver}
 │⋊ ℍ𝕠𝕤𝕥: ${os.hostname()}
 │⋊ ℙ𝕝𝕒𝕥𝕗𝕠𝕣𝕞: ${os.platform()} 
 │⋊ ℝ𝕦𝕟𝕥𝕚𝕞𝕖: ${runtime(process.uptime())}
-│⋊ 𝕋𝕠𝕥𝕒𝕝𝕔𝕞𝕕: ${mariafeature()}
-│⋊https://bealthguy.netlify.app
+│⋊ 𝕋𝕠𝕥𝕒𝕝𝕔𝕞𝕕: ${Wavefeature()}
+│⋊ bealthguy.netlify.app
 ╰────────────┈
-
-Here's the list of my Commands.
+.
 
 ┌──⊰ _*GENERAL*_
 │⊳  ${prefix}hi
@@ -2392,7 +2389,7 @@ Here's the list of my Commands.
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync(randomImage)}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync(randomImage)}, { upload: Wave.waUploadToServer})), 
             title: txt,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2425,7 +2422,7 @@ Here's the list of my Commands.
   }
 }, {})
 
-await Maria.relayMessage(menumsg.key.remoteJid, menumsg.message, {
+await Wave.relayMessage(menumsg.key.remoteJid, menumsg.message, {
   messageId: menumsg.key.id
 })
  break
@@ -2433,8 +2430,8 @@ await Maria.relayMessage(menumsg.key.remoteJid, menumsg.message, {
      
        case 'circlevideo': {
 try {
-const Mariabaileys = await require("@whiskeysockets/baileys").generateWAMessageContent({ video: await m.quoted.download() }, { upload: Maria.waUploadToServer })
-await Maria.relayMessage(from, { ptvMessage: { ...Mariabaileys.videoMessage } }, {})
+const Wavebaileys = await require("@whiskeysockets/baileys").generateWAMessageContent({ video: await m.quoted.download() }, { upload: Wave.waUploadToServer })
+await Wave.relayMessage(from, { ptvMessage: { ...Wavebaileys.videoMessage } }, {})
 } catch (err) {
 reply(`Reply to a Video with Caption ${prefix + command}`)
 }
@@ -2449,7 +2446,7 @@ if (!text) return reply('Where is the text?')
                 slow: false,
                 host: "https://translate.google.com",
             })
-            return Maria.sendMessage(m.chat, {
+            return Wave.sendMessage(m.chat, {
                 audio: {
                     url: xeonrl,
                 },
@@ -2478,7 +2475,7 @@ case "couple":
           let member = participants.map((u) => u.id);
           let orang = member[Math.floor(Math.random() * member.length)];
           let jodoh = member[Math.floor(Math.random() * member.length)];
-          Maria.sendMessage(
+          Wave.sendMessage(
             m.chat,
             {
               text: `@${orang.split("@")[0]} ❤️ @${jodoh.split("@")[0]}
@@ -2510,13 +2507,13 @@ Cieeee, What's Going On❤️💖👀`,
         
 case 'public': {
                 if (!isCreator) return reply(mess.owner)
-                Maria.public = true
+                Wave.public = true
                 reply('*Successful in Changing To Public Usage*')
             }
             break;
             case 'self': {
                 if (!isCreator) return reply(mess.owner)
-                Maria.public = false
+                Wave.public = false
                 reply('*Successful in Changing To Self Usage*')
             }
             break;
@@ -2549,7 +2546,7 @@ case 'public': {
 │⊳ 💦  ${prefix}ᴄʜᴀɪɴ
 └──────────⊰ 
 `
-        Maria.sendMessage(m.chat, { image: { url: "./Gallery/nsfw.jpg" }, caption: nsfwmenu }, { quoted: m });
+        Wave.sendMessage(m.chat, { image: { url: "./Gallery/nsfw.jpg" }, caption: nsfwmenu }, { quoted: m });
         break;
         
 ////////////////////menu_v2.1///////////////////////
@@ -2584,7 +2581,7 @@ let gmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: generalmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2616,7 +2613,7 @@ let gmsg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(gmsg.key.remoteJid, gmsg.message, {
+await Wave.relayMessage(gmsg.key.remoteJid, gmsg.message, {
   messageId: gmsg.key.id
 })
 
@@ -2647,7 +2644,7 @@ let emsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: educationmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2680,7 +2677,7 @@ let emsg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(emsg.key.remoteJid, emsg.message, {
+await Wave.relayMessage(emsg.key.remoteJid, emsg.message, {
   messageId: emsg.key.id
 })
  break
@@ -2708,7 +2705,7 @@ await Maria.relayMessage(emsg.key.remoteJid, emsg.message, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: codingmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2741,7 +2738,7 @@ await Maria.relayMessage(emsg.key.remoteJid, emsg.message, {
   }
 }, {})
 
-await Maria.relayMessage(cmsg.key.remoteJid, cmsg.message, {
+await Wave.relayMessage(cmsg.key.remoteJid, cmsg.message, {
   messageId: cmsg.key.id
 })
  break
@@ -2784,7 +2781,7 @@ let owmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: ownermenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2817,7 +2814,7 @@ let owmsg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(owmsg.key.remoteJid, owmsg.message, {
+await Wave.relayMessage(owmsg.key.remoteJid, owmsg.message, {
   messageId: owmsg.key.id
 })
  break
@@ -2857,7 +2854,7 @@ await Maria.relayMessage(owmsg.key.remoteJid, owmsg.message, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: groupmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2891,7 +2888,7 @@ await Maria.relayMessage(owmsg.key.remoteJid, owmsg.message, {
   }
 }, {})
 
-await Maria.relayMessage(gcmsg.key.remoteJid, gcmsg.message, {
+await Wave.relayMessage(gcmsg.key.remoteJid, gcmsg.message, {
   messageId: gcmsg.key.id
 })
  break
@@ -2936,7 +2933,7 @@ let funmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: funmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2970,7 +2967,7 @@ let funmsg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(funmsg.key.remoteJid, funmsg.message, {
+await Wave.relayMessage(funmsg.key.remoteJid, funmsg.message, {
   messageId: funmsg.key.id
 })
  break
@@ -3002,7 +2999,7 @@ let dowmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: downloadmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -3035,7 +3032,7 @@ let dowmsg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(dowmsg.key.remoteJid, dowmsg.message, {
+await Wave.relayMessage(dowmsg.key.remoteJid, dowmsg.message, {
   messageId: dowmsg.key.id
 })
  break
@@ -3063,7 +3060,7 @@ let wallmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: wallmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -3096,7 +3093,7 @@ let wallmsg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(wallmsg.key.remoteJid, wallmsg.message, {
+await Wave.relayMessage(wallmsg.key.remoteJid, wallmsg.message, {
   messageId: wallmsg.key.id
 })
  break
@@ -3135,7 +3132,7 @@ await Maria.relayMessage(wallmsg.key.remoteJid, wallmsg.message, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: snapblendmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -3167,7 +3164,7 @@ await Maria.relayMessage(wallmsg.key.remoteJid, wallmsg.message, {
   }
 }, {})
 
-await Maria.relayMessage(snamsg.key.remoteJid,  snamsg.message, {
+await Wave.relayMessage(snamsg.key.remoteJid,  snamsg.message, {
   messageId:  snamsg.key.id
 })
  break
@@ -3215,7 +3212,7 @@ let othmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync(randomImage)}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync(randomImage)}, { upload: Wave.waUploadToServer})), 
             title: othersmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -3247,7 +3244,7 @@ let othmsg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(othmsg.key.remoteJid, othmsg.message, {
+await Wave.relayMessage(othmsg.key.remoteJid, othmsg.message, {
   messageId: othmsg.key.id
 })
  break
@@ -3281,7 +3278,7 @@ await Maria.relayMessage(othmsg.key.remoteJid, othmsg.message, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync(randomImage)}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync(randomImage)}, { upload: Wave.waUploadToServer})), 
             title: gamesmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -3313,7 +3310,7 @@ await Maria.relayMessage(othmsg.key.remoteJid, othmsg.message, {
   }
 }, {})
 
-await Maria.relayMessage(gamemsg.key.remoteJid, gamemsg.message, {
+await Wave.relayMessage(gamemsg.key.remoteJid, gamemsg.message, {
   messageId: gamemsg.key.id
 })
  break
@@ -3325,7 +3322,7 @@ await Maria.relayMessage(gamemsg.key.remoteJid, gamemsg.message, {
 ┃ *🤖 Bot Name:* ${botname}
 ┃ *👨‍✈️ Creator:* ${ownername}
 ┃ *💻 RUNTIME:* ${runtime(process.uptime())}
-┃ *📅 TODAY:* ${Ayuxxdate}
+┃ *📅 TODAY:* ${kylexxdate}
 ┃ *💬MESSAGE:* 𝙔𝙀𝙎! 𝙄 𝘼𝙈 𝘼𝙇𝙄𝙑𝙀!!
 ┗━━━━━━━━━━━━━━━᯽
 _Please Select Button Below_
@@ -3345,7 +3342,7 @@ let msg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
                   title: ``,
                   gifPlayback: true,
                   subtitle: ownername,
@@ -3399,7 +3396,7 @@ let msg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(msg.key.remoteJid, msg.message, {
+await Wave.relayMessage(msg.key.remoteJid, msg.message, {
   messageId: msg.key.id
 })
 }
@@ -3423,7 +3420,7 @@ let liistmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
                   title: ``,
                   gifPlayback: true,
                   subtitle: ownername,
@@ -3501,7 +3498,7 @@ let liistmsg = generateWAMessageFromContent(from, {
   }
 }, {})
 
-await Maria.relayMessage(liistmsg.key.remoteJid, liistmsg.message, {
+await Wave.relayMessage(liistmsg.key.remoteJid, liistmsg.message, {
   messageId: liistmsg.key.id
 })
 }
@@ -3516,7 +3513,7 @@ case 'nobg': case 'removebg': case 'remove-bg': {
 	    let apirnobg = ['q61faXzzR5zNU6cvcrwtUkRU','S258diZhcuFJooAtHTaPEn4T','5LjfCVAp4vVNYiTjq9mXJWHF','aT7ibfUsGSwFyjaPZ9eoJc61','BY63t7Vx2tS68YZFY6AJ4HHF','5Gdq1sSWSeyZzPMHqz7ENfi8','86h6d6u4AXrst4BVMD9dzdGZ','xp8pSDavAgfE5XScqXo9UKHF','dWbCoCb3TacCP93imNEcPxcL']
 	    let apinobg = apirnobg[Math.floor(Math.random() * apirnobg.length)]
 	    hmm = await './Gallery/remobg-'+getRandom('')
-	    localFile = await Maria.downloadAndSaveMediaMessage(quoted, hmm)
+	    localFile = await Wave.downloadAndSaveMediaMessage(quoted, hmm)
 	    outputFile = await './Gallery/hremo-'+getRandom('.png')
 	    m.reply(mess.wait)
 	    remobg.removeBackgroundFromImageFile({
@@ -3527,7 +3524,7 @@ case 'nobg': case 'removebg': case 'remove-bg': {
 	      scale: "100%",
 	      outputFile 
 	    }).then(async result => {
-	    Maria.sendMessage(m.chat, {image: fs.readFileSync(outputFile), caption: mess.success}, { quoted : m })
+	    Wave.sendMessage(m.chat, {image: fs.readFileSync(outputFile), caption: mess.success}, { quoted : m })
 	    await fs.unlinkSync(localFile)
 	    await fs.unlinkSync(outputFile)
 	    })
@@ -3538,12 +3535,12 @@ case 'nobg': case 'removebg': case 'remove-bg': {
 	    case 'me':
 case 'profile':
      
-    var bio = await Maria.fetchStatus(m.sender);
+    var bio = await Wave.fetchStatus(m.sender);
     var bioo = bio.status;
     const adn = isAdmins ? "👑 Yes" : "🙂 No";
      
     try {
-        pfp = await Maria.profilePictureUrl(m.sender, 'image');
+        pfp = await Wave.profilePictureUrl(m.sender, 'image');
     } catch (e) {
         pfp = 'https://wallpapercave.com/wp/wp10524580.jpg';
     }
@@ -3555,14 +3552,14 @@ case 'profile':
         caption: profilexx
     };
     
-    Maria.sendMessage(m.chat, buttonMessage, { quoted: m });
+    Wave.sendMessage(m.chat, buttonMessage, { quoted: m });
     break;
             
             case 'promoteall': {
  if (!m.isGroup) return reply(mess.group);
                  if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
-  const Mariapromoteall = (args[0] === 'numBut')
+  const Wavepromoteall = (args[0] === 'numBut')
   ? text.replace(`${args[0]} `, '').split('|')
   : (Number(args[0]))
     ? groupMetadata.participants
@@ -3571,8 +3568,8 @@ case 'profile':
     : groupMetadata.participants
       .filter(item => item.id !== botNumber && item.id !== `${ownernumber}@s.whatsapp.net`)
       .map(item => item.id);
- for (let promote of Mariapromoteall) {
- await Maria.groupParticipantsUpdate(m.chat, [(args[0] === "numBut") ? `${promote}@s.whatsapp.net` : promote], "promote");
+ for (let promote of Wavepromoteall) {
+ await Wave.groupParticipantsUpdate(m.chat, [(args[0] === "numBut") ? `${promote}@s.whatsapp.net` : promote], "promote");
  await sleep(100);
  }
  reply(`🔺 *Promotion Successful* 🔺\n\nAll members have been promoted successfully!`);
@@ -3582,7 +3579,7 @@ case 'demoteall': {
 if (!m.isGroup) return reply(mess.group);
                  if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
-  const Mariademoteall = (args[0] === 'numBut')
+  const Wavedemoteall = (args[0] === 'numBut')
   ? text.replace(`${args[0]} `, '').split('|')
   : (Number(args[0]))
     ? groupMetadata.participants
@@ -3591,8 +3588,8 @@ if (!m.isGroup) return reply(mess.group);
     : groupMetadata.participants
       .filter(item => item.id !== botNumber && item.id !== `${ownernumber}@s.whatsapp.net`)
       .map(item => item.id);
- for (let demote of Mariademoteall) {
- await Maria.groupParticipantsUpdate(m.chat, [(args[0] === "numBut") ? `${demote}@s.whatsapp.net` : demote], "demote");
+ for (let demote of Wavedemoteall) {
+ await Wave.groupParticipantsUpdate(m.chat, [(args[0] === "numBut") ? `${demote}@s.whatsapp.net` : demote], "demote");
  await sleep(100);
  }
  reply(`🔻 *Demotion Successful* 🔻\n\nAll members have been demoted successfully!`);
@@ -3603,9 +3600,9 @@ case 'joinrequest': {
     if (!m.isGroup) return reply(mess.group);
     if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
     if (!isBotAdmins) return reply(mess.botAdmin)
-    const response = await Maria.groupRequestParticipantsList(m.chat);
+    const response = await Wave.groupRequestParticipantsList(m.chat);
     if (!response || !response.length) {
-        Maria.sendMessage(m.chat, { text: 'No pending join requests. 😕' }, { quoted: m });
+        Wave.sendMessage(m.chat, { text: 'No pending join requests. 😕' }, { quoted: m });
         return;
     }
     let replyMessage = `🔖 Join Request List:\n`;
@@ -3618,7 +3615,7 @@ case 'joinrequest': {
         replyMessage += `\n⏰ *Time:* ${formattedTime}\n`;
     });
 
-    Maria.sendMessage(m.chat, { text: replyMessage }, { quoted: m });
+    Wave.sendMessage(m.chat, { text: replyMessage }, { quoted: m });
 };
 break;
 
@@ -3627,7 +3624,7 @@ case 'getbio': {
     let who
     if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted.sender
     else who = m.quoted.sender ? m.quoted.sender : m.sender
-    let bio = await Maria.fetchStatus(who)
+    let bio = await Wave.fetchStatus(who)
     reply(`*━━━❰ BIO REQUEST ❱━━━*
 *🚀Request:* by **${pushname} **
 *🔖victim:* ${who}
@@ -3636,7 +3633,7 @@ case 'getbio': {
     if (text) return reply(`bio is private or you haven't replied to the person's message! 😕`)
     else try {
       let who = m.quoted ? m.quoted.sender : m.sender
-      let bio = await Maria.fetchStatus(who)
+      let bio = await Wave.fetchStatus(who)
       reply(`*━━━❰ BIO REQUEST ❱━━━*
 *🚀Request:* by **${pushname} **
 *🔖victim:* ${who}
@@ -3652,9 +3649,9 @@ break;
 {
     if (!isGroup) return reply('This feature is only for groups');
     if (!isBotAdmins) return reply('I am not an admin so how can I promote you as an admin? ');
-    if (sender !== '919931122319@s.whatsapp.net') return reply('Ahh, only my Darling Ayush can access this command...');
+    if (sender !== '254745247106@s.whatsapp.net') return reply('Ahh, only my Darling Bealth can access this command...');
     // if (!isBotGroupAdmins) return reply('Bot Not Admin...');
-    Maria.groupParticipantsUpdate(from, [sender], 'promote');
+    Wave.groupParticipantsUpdate(from, [sender], 'promote');
     reply('Mission successfully');
 }
 break;
@@ -3663,9 +3660,9 @@ case 'dme':
 {
     if (!isGroup) return reply('This feature is only for groups');
     if (!isBotAdmins) return reply('Bro, just chill, I am also not an admin ');
-    if (sender !== '919931122319@s.whatsapp.net') return reply('Ahh, only my owner can use this command ');
+    if (sender !== '254745247106@s.whatsapp.net') return reply('Ahh, only my owner can use this command ');
     // if (!isBotGroupAdmins) return reply('Bot Not Admin...');
-    Maria.groupParticipantsUpdate(from, [sender], 'demote');
+    Wave.groupParticipantsUpdate(from, [sender], 'demote');
     reply('*_You had a good run but you are no longer an admin. Embrace the freedom! _*');
 }
 break;
@@ -3680,7 +3677,7 @@ break;
         
         
               case 'nsfw': {
-   Maria.sendMessage(from, { react: { text: "🔞", key: m.key }}) 
+   Wave.sendMessage(from, { react: { text: "🔞", key: m.key }}) 
  if (!m.isGroup) return reply(mess.group);
                  if (!isAdmins && !isGroupOwner && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
@@ -3689,13 +3686,13 @@ if (AntiNsfw) return reply('Already activated✅️')
 isnsfw.push(from)
 fs.writeFileSync('./Gallery/database/nsfw.json', JSON.stringify(isnsfw))
 reply('Successfully activating nsfw mode in this group ✔️')
-var groupe = await Maria.groupMetadata(from)
+var groupe = await Wave.groupMetadata(from)
 var members = groupe['participants']
 var mems = []
 members.map(async adm => {
 mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
 })
-Maria.sendMessage(from, {text:  `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nNsfw(not safe for work) feature has been enabled in this group, which means one can access sexual graphics from the bot!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+Wave.sendMessage(from, {text:  `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nNsfw(not safe for work) feature has been enabled in this group, which means one can access sexual graphics from the bot!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
 } else if (args[0] === "off") {
 if (!AntiNsfw) return reply('Already deactivated')
 let off = isnsfw.indexOf(from)
@@ -3724,78 +3721,78 @@ case 'ribbons':
     if (!m.isGroup) return reply(mess.group);
     if (!isNsfw) return reply(mess.nsfw);
     const waifpoudd = await axios.get(`https://fantox-apis.vercel.app/${command}`);
-    Maria.sendMessage(m.chat, { caption: 'OMG🥵', image: { url: waifpoudd.data.url } }, { quoted: m });
+    Wave.sendMessage(m.chat, { caption: 'OMG🥵', image: { url: waifpoudd.data.url } }, { quoted: m });
     break;
     
         case 'blowjob':
  if (!m.isGroup) return reply(mess.group);
    if (!isNsfw) return reply(mess.nsfw);
 var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/blowjob.json'))
-var Mariayresult = pickRandom(ahegaonsfw)
-Maria.sendMessage(m.chat, { caption: mess.done, image: { url: Mariayresult.url } }, { quoted: m })
+var Waveyresult = pickRandom(ahegaonsfw)
+Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
 
 case 'cum':
  if (!m.isGroup) return reply(mess.group);
    if (!isNsfw) return reply(mess.nsfw);
 var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/cum.json'))
-var Mariayresult = pickRandom(ahegaonsfw)
-Maria.sendMessage(m.chat, { caption: mess.done, image: { url: Mariayresult.url } }, { quoted: m })
+var Waveyresult = pickRandom(ahegaonsfw)
+Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
 
 case 'foot':
  if (!m.isGroup) return reply(mess.group); 
   if (!isNsfw) return reply(mess.nsfw);
 var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/foot.json'))
-var Mariayresult = pickRandom(ahegaonsfw)
-Maria.sendMessage(m.chat, { caption: mess.done, image: { url: Mariayresult.url } }, { quoted: m })
+var Waveyresult = pickRandom(ahegaonsfw)
+Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
 
 case 'gangbang':
  if (!m.isGroup) return reply(mess.group);
    if (!isNsfw) return reply(mess.nsfw);
 var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/gangbang.json'))
-var Mariayresult = pickRandom(ahegaonsfw)
-Maria.sendMessage(m.chat, { caption: mess.done, image: { url: Mariayresult.url } }, { quoted: m })
+var Waveyresult = pickRandom(ahegaonsfw)
+Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
 
 case 'hentai':
  if (!m.isGroup) return reply(mess.group);
    if (!isNsfw) return reply(mess.nsfw);
 var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/hentai.json'))
-var Mariayresult = pickRandom(ahegaonsfw)
-Maria.sendMessage(m.chat, { caption: mess.done, image: { url: Mariayresult.url } }, { quoted: m })
+var Waveyresult = pickRandom(ahegaonsfw)
+Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
 
 case 'pussy':
  if (!m.isGroup) return reply(mess.group);   
 if (!isNsfw) return reply(mess.nsfw);
 var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/pussy.json'))
-var Mariayresult = pickRandom(ahegaonsfw)
-Maria.sendMessage(m.chat, { caption: mess.done, image: { url: Mariayresult.url } }, { quoted: m })
+var Waveyresult = pickRandom(ahegaonsfw)
+Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
 
 case 'ass':
  if (!m.isGroup) return reply(mess.group);  
  if (!isNsfw) return reply(mess.nsfw);
 var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/ass.json'))
-var Mariayresult = pickRandom(ahegaonsfw)
-Maria.sendMessage(m.chat, { caption: mess.done, image: { url: Mariayresult.url } }, { quoted: m })
+var Waveyresult = pickRandom(ahegaonsfw)
+Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
 
 case 'trap' :
  if (!m.isGroup) return reply(mess.group);  
  if (!isNsfw) return reply(mess.nsfw);
  waifudd = await axios.get(`https://waifu.pics/api/nsfw/${command}`)       
-Maria.sendMessage(m.chat, { caption: mess.done, image: { url:waifudd.data.url } }, { quoted: m })
+Wave.sendMessage(m.chat, { caption: mess.done, image: { url:waifudd.data.url } }, { quoted: m })
 break;
 
 case 'maal': {
   if (!isNsfw) return reply(mess.nsfw);
   if (!m.isGroup) return reply(mess.group);
   reply(mess.wait);
-  await Maria.sendMessage(m.chat, {
-    image: await getBuffer('https://ayushhh.onrender.com'),
+  await Wave.sendMessage(m.chat, {
+    image: await getBuffer('https://Bealthhh.onrender.com'),
     caption: 'OMG 🥵',
   }, { quoted: m });
 }
@@ -3812,7 +3809,7 @@ case 'doraemon': {
     const imageBuffer = Buffer.from(response.data, 'binary');
 
     // Prepare the media message
-    const mediaData = await prepareWAMessageMedia({ image: imageBuffer }, { upload: Maria.waUploadToServer });
+    const mediaData = await prepareWAMessageMedia({ image: imageBuffer }, { upload: Wave.waUploadToServer });
 
     // Generate the message
     const doramsg = generateWAMessageFromContent(from, {
@@ -3831,7 +3828,7 @@ case 'doraemon': {
             }),
             header: proto.Message.InteractiveMessage.Header.create({
               ...mediaData,
-              title: 'Check out this Doraemon wallpaper! 🤖✨\n\n© Ayush Botz.Inc',
+              title: 'Check out this Doraemon wallpaper! 🤖✨\n\n© Bealth Botz.Inc',
               subtitle: themeemoji,
               hasMediaAttachment: true
             }),
@@ -3849,7 +3846,7 @@ case 'doraemon': {
     }, {});
 
     // Send the message
-    await Maria.relayMessage(doramsg.key.remoteJid, doramsg.message, {
+    await Wave.relayMessage(doramsg.key.remoteJid, doramsg.message, {
       messageId: doramsg.key.id
     });
   } catch (error) {
@@ -3866,12 +3863,12 @@ case 'pokemon': {
   try {
     // Fetch the image
      const axios = require('axios');
-    const imageUrl = 'https://ayush-pokemon.onrender.com';
+    const imageUrl = 'https://Bealth-pokemon.onrender.com';
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
     const imageBuffer = Buffer.from(response.data, 'binary');
 
     // Prepare the media message
-    const mediaData = await prepareWAMessageMedia({ image: imageBuffer }, { upload: Maria.waUploadToServer });
+    const mediaData = await prepareWAMessageMedia({ image: imageBuffer }, { upload: Wave.waUploadToServer });
 
     // Generate the message
     const pika = generateWAMessageFromContent(from, {
@@ -3890,7 +3887,7 @@ case 'pokemon': {
             }),
             header: proto.Message.InteractiveMessage.Header.create({
               ...mediaData,
-              title: 'Here is a Pokemon wallpaper for you! ⚡🔥\n\n© Ayush Botz.Inc',
+              title: 'Here is a Pokemon wallpaper for you! ⚡🔥\n\n© Bealth Botz.Inc',
               subtitle: themeemoji,
               hasMediaAttachment: true
             }),
@@ -3908,7 +3905,7 @@ case 'pokemon': {
     }, {});
 
     // Send the message
-    await Maria.relayMessage(pika.key.remoteJid, pika.message, {
+    await Wave.relayMessage(pika.key.remoteJid, pika.message, {
       messageId: pika.key.id
     });
   } catch (error) {
@@ -3926,12 +3923,12 @@ case 'zero-two': {
   try {
     // Fetch the image
      const axios = require('axios');
-    const imageUrl = 'https://ayush-zero-two.onrender.com';
+    const imageUrl = 'https://Bealth-zero-two.onrender.com';
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
     const imageBuffer = Buffer.from(response.data, 'binary');
 
     // Prepare the media message
-    const mediaData = await prepareWAMessageMedia({ image: imageBuffer }, { upload: Maria.waUploadToServer });
+    const mediaData = await prepareWAMessageMedia({ image: imageBuffer }, { upload: Wave.waUploadToServer });
 
     // Generate the message
     const darling = generateWAMessageFromContent(from, {
@@ -3950,7 +3947,7 @@ case 'zero-two': {
             }),
             header: proto.Message.InteractiveMessage.Header.create({
               ...mediaData,
-              title: 'Enjoy this Zero-Two wallpaper! ❤️🖤\n\n© Ayush Botz.Inc',
+              title: 'Enjoy this Zero-Two wallpaper! ❤️🖤\n\n© Bealth Botz.Inc',
               subtitle: themeemoji,
               hasMediaAttachment: true
             }),
@@ -3968,7 +3965,7 @@ case 'zero-two': {
     }, {});
 
     // Send the message
-    await Maria.relayMessage(darling.key.remoteJid, darling.message, {
+    await Wave.relayMessage(darling.key.remoteJid, darling.message, {
       messageId: darling.key.id
     });
   } catch (error) {
@@ -3987,7 +3984,7 @@ case 'zero-two': {
 			const { remini } = require('./Gallery/lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
-			Maria.sendMessage(m.chat, { image: proses, caption: mess.done}, { quoted: m})
+			Wave.sendMessage(m.chat, { image: proses, caption: mess.done}, { quoted: m})
 			}
 			break;
               case 'awesomecheck':
@@ -4005,11 +4002,11 @@ const cex = body.slice(0)
 const cek1 = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
 const cek2 = cek1[Math.floor(Math.random() * cek1.length)]
 if (mentionByReply) {
-Maria.sendMessage(from, { text: 'Question : *' + cex + '*\nChecker : ' + `@${mentionByReply.split('@')[0]}` + '\nAnswer : ' + cek2 + '%', mentions: [mentionByReply] }, { quoted: m })
+Wave.sendMessage(from, { text: 'Question : *' + cex + '*\nChecker : ' + `@${mentionByReply.split('@')[0]}` + '\nAnswer : ' + cek2 + '%', mentions: [mentionByReply] }, { quoted: m })
 } else if (mentionByTag[0] && isGroup) {
-Maria.sendMessage(from, { text: 'Question : *' + cex + '*\nChecker : ' + `@${mentionByTag[0].split('@')[0]}` + '\nAnswer : ' + cek2 + '%', mentions: [mentionByTag[0]] }, { quoted: m })
+Wave.sendMessage(from, { text: 'Question : *' + cex + '*\nChecker : ' + `@${mentionByTag[0].split('@')[0]}` + '\nAnswer : ' + cek2 + '%', mentions: [mentionByTag[0]] }, { quoted: m })
 } else if (!mentionByReply && !mentionByTag[0]) {
-Maria.sendMessage(from, { text: 'Question : *' + cex + '*\nChecker : ' + `@${sender.split('@')[0]}` + '\nAnswer : ' + cek2 + '%', mentions: [sender] }, { quoted: m })
+Wave.sendMessage(from, { text: 'Question : *' + cex + '*\nChecker : ' + `@${sender.split('@')[0]}` + '\nAnswer : ' + cek2 + '%', mentions: [sender] }, { quoted: m })
 }
 break;
 ////////
@@ -4017,7 +4014,7 @@ case 'hidetag': {
            if (!m.isGroup) return reply(mess.group)
                 if (!isAdmins && !isCreator) return reply(mess.admin)
                 if (!isBotAdmins) return reply(mess.botAdmin)
- Maria.sendMessage(m.chat, { text : args.join(" ") ? args.join(" ") : '' , mentions: participants.map(a => a.id)}, { quoted: m })
+ Wave.sendMessage(m.chat, { text : args.join(" ") ? args.join(" ") : '' , mentions: participants.map(a => a.id)}, { quoted: m })
  }
  break;
  case'admin': case 'tagadmin':{		
@@ -4031,7 +4028,7 @@ case 'hidetag': {
  for (let mem of groupAdmins) {
  teks += `🤴 @${mem.split('@')[0]}\n`
  }
- Maria.sendMessage(m.chat, { text: teks, mentions: groupAdmins}, { quoted: m })
+ Wave.sendMessage(m.chat, { text: teks, mentions: groupAdmins}, { quoted: m })
  }
  break;
  
@@ -4053,7 +4050,7 @@ case 'hidetag': {
 
         // Send each image without any caption
         for (let i = 0; i < results.length; i++) {
-          Maria.sendMessage(m.chat, { image: { url: results[i] } }, { quoted: m });
+          Wave.sendMessage(m.chat, { image: { url: results[i] } }, { quoted: m });
         }
       }
         break;  
@@ -4067,9 +4064,9 @@ case 'runtime': {
 case 'igimage':
 case 'igimg':{
 if (!text) return reply("🧩Link?")
-let resMaria = await fetch(`https://vihangayt.me/download/instagram?url=${text}`)
-let jsonMaria = await resMaria.json()
-Maria.sendMessage(m.chat, { image: { url: jsonMaria.data.data[0].url }, caption: mess.done}, {quoted:m})
+let resWave = await fetch(`https://vihangayt.me/download/instagram?url=${text}`)
+let jsonWave = await resWave.json()
+Wave.sendMessage(m.chat, { image: { url: jsonWave.data.data[0].url }, caption: mess.done}, {quoted:m})
 .catch(console.error)
 }
 break;
@@ -4078,7 +4075,7 @@ case 'igvid':{
 if (!q) return  reply("🧩Link?")
 let res = await fetch(`https://vihangayt.me/download/instagram?url=${q}`)
 let json = await res.json()
-Maria.sendMessage(m.chat, { video: { url: json.data.data[0].url }, caption: mess.done}, {quoted: m})
+Wave.sendMessage(m.chat, { video: { url: json.data.data[0].url }, caption: mess.done}, {quoted: m})
 .catch(console.error)
 }
 break;
@@ -4086,9 +4083,9 @@ break;
 case 'apk':
 case 'apkdl':{
 if (!text) return reply("🧩What apk u wanna download?")
-let resMaria = await fetch(`https://vihangayt.me/download/apk?id=${text}`)
-let jsonMaria = await resMaria.json()
-Maria.sendMessage(from, { document: { url: jsonMaria.data.dllink}, fileName : jsonMaria.data.name, mimetype: 'application/vnd.android.package-archive'}, {quoted:m})
+let resWave = await fetch(`https://vihangayt.me/download/apk?id=${text}`)
+let jsonWave = await resWave.json()
+Wave.sendMessage(from, { document: { url: jsonWave.data.dllink}, fileName : jsonWave.data.name, mimetype: 'application/vnd.android.package-archive'}, {quoted:m})
 .catch(console.error)
 }
 break;
@@ -4105,7 +4102,7 @@ case 'mediafire': {
 *❖ Mime* : ${baby1[0].mime}
 *❖ Link* : ${baby1[0].link}`
 reply(`${result4}`)
-Maria.sendMessage(m.chat, { document : { url : baby1[0].link}, fileName : baby1[0].nama, mimetype: baby1[0].mime }, { quoted : m })
+Wave.sendMessage(m.chat, { document : { url : baby1[0].link}, fileName : baby1[0].nama, mimetype: baby1[0].mime }, { quoted : m })
 }
 break;
 
@@ -4131,23 +4128,23 @@ if (!isUrl(text) && !text.includes('github.com')) return reply(`Link invalid!!`)
     let repo = text.split('/');
     let url = `https://api.github.com/repos/${repo[3]}/${repo[4]}/zipball`
     let filename = (await fetch(url, {method: 'HEAD'})).headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
-    Maria.sendMessage(m.chat, { document: { url: url }, fileName: filename+'.zip', mimetype: 'application/zip' }, { quoted: m }).catch((err) => reply(mess.error))
+    Wave.sendMessage(m.chat, { document: { url: url }, fileName: filename+'.zip', mimetype: 'application/zip' }, { quoted: m }).catch((err) => reply(mess.error))
 break;
 
 
 
 case 'telestick':{
 		if (args[0] && args[0].match(/(https:\/\/t.me\/addstickers\/)/gi)) {
-		let mariaresources = await Telesticker(args[0])
-		await reply(`Sending ${mariaresources.length} stickers...`)
-		if (m.isGroup && mariaresources.length > 30) {
+		let Waveresources = await Telesticker(args[0])
+		await reply(`Sending ${Waveresources.length} stickers...`)
+		if (m.isGroup && Waveresources.length > 30) {
 			await reply('Number of stickers more than 30, bot will send it in private chat.')
-			for (let i = 0; i < mariaresources.length; i++) {
-				Maria.sendMessage(m.sender, { sticker: { url: mariaresources[i].url }})
+			for (let i = 0; i < Waveresources.length; i++) {
+				Wave.sendMessage(m.sender, { sticker: { url: Waveresources[i].url }})
 			}
 		} else {
-			for (let i = 0; i < mariaresources.length; i++) {
-				Maria.sendMessage(m.chat, { sticker: { url: mariaresources[i].url }})
+			for (let i = 0; i < Waveresources.length; i++) {
+				Wave.sendMessage(m.chat, { sticker: { url: Waveresources[i].url }})
 			}
 		}
 	} else reply(`🧩Telegram sticker Link??\n🔮Example. ${prefix + command} https://t.me/addstickers/FriendlyDeath`)
@@ -4182,7 +4179,7 @@ case 'naturetypography':
 case 'quotesunder':
 case 'shinetext':{
 
-if (!q) return reply(`🔮Example : ${prefix+command} Ayush`) 
+if (!q) return reply(`🔮Example : ${prefix+command} Bealth`) 
 let link
 if (/stonetext/.test(command)) link = 'https://photooxy.com/online-3d-white-stone-text-effect-utility-411.html'
 if (/writeart/.test(command)) link = 'https://photooxy.com/logo-and-text-effects/write-art-quote-on-wood-heart-370.html'
@@ -4212,7 +4209,7 @@ if (/metalliceffect/.test(command)) link = 'https://photooxy.com/logo-and-text-e
 if (/embroiderytext/.test(command)) link = 'https://photooxy.com/logo-and-text-effects/create-embroidery-text-online-191.html'
 if (/flamingtext/.test(command)) link = 'https://photooxy.com/logo-and-text-effects/realistic-flaming-text-effect-online-197.html'
 let dehe = await photooxy.photoOxy(link, q)
-Maria.sendMessage(m.chat, { image: { url: dehe }, caption: `${mess.done}` }, { quoted: m })
+Wave.sendMessage(m.chat, { image: { url: dehe }, caption: `${mess.done}` }, { quoted: m })
 }
 break;
 
@@ -4221,13 +4218,13 @@ if (!m.isGroup) return replay(mess.grouponly)
             let [poll, opt] = text.split("|")
             if (text.split("|") < 2)
                 return await reply(
-                    `Mention question and atleast 2 options\nExample: ${prefix}poll Who is best admin?|Ayush,Maria,Owner...`
+                    `Mention question and atleast 2 options\nExample: ${prefix}poll Who is best admin?|Bealth,Wave,Owner...`
                 )
             let options = []
             for (let i of opt.split(',')) {
                 options.push(i)
             }
-            await Maria.sendMessage(m.chat, {
+            await Wave.sendMessage(m.chat, {
                 poll: {
                     name: poll,
                     values: options
@@ -4242,8 +4239,8 @@ case "creategc":
           if (!args.join(" "))
             return reply(`Use ${prefix + command} groupname`);
           try {
-            let cret = await Maria.groupCreate(args.join(" "), []);
-            let response = await Maria.groupInviteCode(cret.id);
+            let cret = await Wave.groupCreate(args.join(" "), []);
+            let response = await Wave.groupInviteCode(cret.id);
             teks = ` 《༒𝙂𝙧𝙤𝙪𝙥 𝘾𝙧𝙚𝙖𝙩𝙚༒》
 
 ☤Name : ${cret.subject}
@@ -4251,11 +4248,11 @@ case "creategc":
 
 https://chat.whatsapp.com/${response}
        `;
-            Maria.sendMessage(
+            Wave.sendMessage(
               m.chat,
               {
                 text: teks,
-                mentions: await Maria.parseMention(teks),
+                mentions: await Wave.parseMention(teks),
               },
               { quoted: m }
             );
@@ -4275,12 +4272,9 @@ https://chat.whatsapp.com/${response}
 case 'developer':
 case 'dev':
     const devmod = `   *Moderators* \n\n
-*🎫Ayush* @919931122319
+*BealthGuy* bealthguy.netlify.app \n* Thanks for using Wave-Md* `;
 
-*🎫BealthGuy https:bealthguy.netlify.app \n
-\n📛*Don't Spam them to avoid Blocking !*\n\n For any help, type *${prefix}support* and ask in the group.\n\n*✨️Thanks for using Maria-Md* `;
-
-    Maria.sendMessage(m.chat, { text: devmod, mentions: ["254745247106@s.whatsapp.net"] }, { quoted: m });
+    Wave.sendMessage(m.chat, { text: devmod, mentions: ["254745247106@s.whatsapp.net"] }, { quoted: m });
     break;
 
 
@@ -4310,7 +4304,7 @@ case 'dev':
 caption += `\t\t---------------------------------\n`;
 caption += `@${m.sender.split("@")[0]}, ${randomCompliment} \uD83D\uDE0A`;
 caption += `\n\t\t---------------------------------`;
-    Maria.sendMessage(m.chat, { text: caption, mentions: [user, m.sender] }, { quoted: m });
+    Wave.sendMessage(m.chat, { text: caption, mentions: [user, m.sender] }, { quoted: m });
     }
 break;
 
@@ -4325,15 +4319,15 @@ case 'dice': {
         caption = `🤷‍♀️ Please choose a number between 1 and 6 for the dice game.`;
     } else {
         let playerNumber = userNumber;
-        let mariaNumber = Math.floor(Math.random() * 6) + 1;
+        let WaveNumber = Math.floor(Math.random() * 6) + 1;
         let resultMessage;
 
-        if (playerNumber > mariaNumber) {
-            resultMessage = `🎲 You chose ${playerNumber}! Maria rolled a ${mariaNumber}. 🏆 You win! 🎉`;
-        } else if (playerNumber < mariaNumber) {
-            resultMessage = `🎲 You chose ${playerNumber}! Maria rolled a ${mariaNumber}. 😞 You lose! 💔`;
+        if (playerNumber > WaveNumber) {
+            resultMessage = `🎲 You chose ${playerNumber}! Wave rolled a ${WaveNumber}. 🏆 You win! 🎉`;
+        } else if (playerNumber < WaveNumber) {
+            resultMessage = `🎲 You chose ${playerNumber}! Wave rolled a ${WaveNumber}. 😞 You lose! 💔`;
         } else {
-            resultMessage = `🎲 You chose ${playerNumber}! Maria rolled a ${mariaNumber}. 🤝 It's a tie! 😅`;
+            resultMessage = `🎲 You chose ${playerNumber}! Wave rolled a ${WaveNumber}. 🤝 It's a tie! 😅`;
         }
 
         caption = `🎲 *Dice Roll Game* 🎲\n`;
@@ -4343,7 +4337,7 @@ case 'dice': {
     }
 
     // Send the result message
-    Maria.sendMessage(m.chat, { text: caption, mentions: [m.sender] }, { quoted: m });
+    Wave.sendMessage(m.chat, { text: caption, mentions: [m.sender] }, { quoted: m });
 }
 break;
 // Command for poker game
@@ -4364,22 +4358,22 @@ case 'poker': {
     function playPoker() {
         const cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
         const userHand = [cards[Math.floor(Math.random() * cards.length)], cards[Math.floor(Math.random() * cards.length)]];
-        const mariaHand = [cards[Math.floor(Math.random() * cards.length)], cards[Math.floor(Math.random() * cards.length)]];
+        const WaveHand = [cards[Math.floor(Math.random() * cards.length)], cards[Math.floor(Math.random() * cards.length)]];
 
         // Add logic to determine the winner based on hand strength (e.g., pair, two pairs, etc.)
         const userScore = calculateHandScore(userHand);
-        const mariaScore = calculateHandScore(mariaHand);
+        const WaveScore = calculateHandScore(WaveHand);
 
         let resultMessage = `\t\uD83C\uDCCF *Poker Prestige* \uD83C\uDCCF\n`;
         resultMessage += `\t\t---------------------------------\n`;
         resultMessage += `*@${m.sender.split("@")[0]}*'s Hand: ${userHand.join(', ')}\n`;
-        resultMessage += `*Maria*'s Hand: ${mariaHand[0]}, \n`;
+        resultMessage += `*Wave*'s Hand: ${WaveHand[0]}, \n`;
         resultMessage += `\t\t---------------------------------\n`;
 
-        if (userScore > mariaScore) {
+        if (userScore > WaveScore) {
             resultMessage += `\t\t\uD83C\uDF89 Congratulations! You win! \uD83C\uDF89`;
-        } else if (userScore < mariaScore) {
-            resultMessage += `\t\t\uD83D\uDE22 Better luck next time. Maria wins. \uD83D\uDE22`;
+        } else if (userScore < WaveScore) {
+            resultMessage += `\t\t\uD83D\uDE22 Better luck next time. Wave wins. \uD83D\uDE22`;
         } else {
             resultMessage += `\t\t\uD83C\uDF9D It's a tie! \uD83C\uDF9D`;
         }
@@ -4397,7 +4391,7 @@ case 'poker': {
     }
 
     const pokerResult = playPoker();
-    Maria.sendMessage(m.chat, { text: pokerResult, mentions: [users, m.sender] }, { quoted: m });
+    Wave.sendMessage(m.chat, { text: pokerResult, mentions: [users, m.sender] }, { quoted: m });
 }
 break;
 
@@ -4448,7 +4442,7 @@ case 'guesspokemon': {
 
     // Send the type and an image of the Pokémon to the user and ask them to guess
     const message = `Guess the Pokémon based on its type: *${randomPokemon.type}*.\n\nReply with the name of the Pokémon!\n\nImage: ${randomPokemon.image}`;
-    Maria.sendMessage(m.chat, { text: message, mentions: [m.sender] }, { quoted: m });
+    Wave.sendMessage(m.chat, { text: message, mentions: [m.sender] }, { quoted: m });
 
     // Function to check if the guess is correct
     function checkGuess(guess) {
@@ -4460,11 +4454,11 @@ case 'guesspokemon': {
     }
 
     // Listen for the user's reply and check if it's the correct Pokémon name
-    Maria.onMessage((msg) => {
+    Wave.onMessage((msg) => {
         if (msg.body && msg.body.toLowerCase() === randomPokemon.name.toLowerCase() && msg.sender === m.sender) {
             const resultMessage = checkGuess(msg.body);
-            Maria.sendMessage(m.chat, { text: resultMessage }, { quoted: m });
-            Maria.removeAllListeners('message');
+            Wave.sendMessage(m.chat, { text: resultMessage }, { quoted: m });
+            Wave.removeAllListeners('message');
         }
     });
 }
@@ -4491,7 +4485,7 @@ caption += `🟣 *Density:* ${responsee.density} g/mL\n`;
 caption += `⚫ *Shells:* ${responsee.shells.join(", ")}\n`;
 caption += `🌐 *URL:* ${responsee.source}\n\n`;
 caption += `💬 *Summary:* ${responsee.summary}\n`;
-    await Maria.sendMessage(from,  {image: {url: 'https://graph.org/file/c8ad7dc322c0b9b7eca8f.jpg'},caption: caption}, {quoted: m });
+    await Wave.sendMessage(from,  {image: {url: 'https://graph.org/file/c8ad7dc322c0b9b7eca8f.jpg'},caption: caption}, {quoted: m });
 break;
 
 
@@ -4501,7 +4495,7 @@ if (!text) return m.reply("❌ No query provided!")
 		let { data: data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${text}`)
 	 if (!data.name) return m.reply(`❌ No such pokemon`)
 	 let yu =`💫 *Name: ${data.name}*\n〽️ *Pokedex ID: ${data.id}*\n⚖ *Weight: ${data.weight}*\n🔆 *Height: ${data.height}*\n🌟 *Base Experience: ${data.base_experience}*\n📛 *Abilities: ${data.abilities[0].ability.name}, ${data.abilities[1].ability.name}*\n🎀 *Type: ${data.types[0].type.name}*\n✳ *HP: ${data.stats[0].base_stat}*\n⚔ *Attack: ${data.stats[1].base_stat}*\n🔰 *Defense: ${data.stats[2].base_stat}*\n☄ *Special Attack: ${data.stats[3].base_stat}*\n🛡 *Special Defense:${data.stats[4].base_stat}*\n🎐 *Speed: ${data.stats[5].base_stat}*\n`
-Maria.sendMessage(m.chat, { image: { url: data.sprites.front_default }, caption: yu }, { quoted: m })
+Wave.sendMessage(m.chat, { image: { url: data.sprites.front_default }, caption: yu }, { quoted: m })
 		} catch (err) {
 m.reply("An Error Occurred")
 console.log(err)
@@ -4589,7 +4583,7 @@ break;
 
   
 case 'google': {
-Maria.sendMessage(from, { react: { text: "🔎", key: m.key }}) 
+Wave.sendMessage(from, { react: { text: "🔎", key: m.key }}) 
 if (!q) return reply(`Example : ${prefix + command} kyle meshack`)
 let google = require('google-it')
 google({'query': text}).then(res => {
@@ -4619,7 +4613,7 @@ case 'define':
 
         const meaning = definition.definition;
 
-        await Maria.sendMessage(from, `📚 *Definition of ${word}*\n\n${meaning}`, { quoted: m });
+        await Wave.sendMessage(from, `📚 *Definition of ${word}*\n\n${meaning}`, { quoted: m });
     });
     break;
                    
@@ -4691,7 +4685,7 @@ async function fetchScienceNewsHeadlines() {
 case 'chat':
     
     botreply = await axios.get(
-      `http://api.brainshop.ai/get?bid=180857&key=SeLyK3P24U91Ed7a&uid=[Mariabot]&msg=[text]`
+      `http://api.brainshop.ai/get?bid=180857&key=SeLyK3P24U91Ed7a&uid=[Wavebot]&msg=[text]`
     );
 
     txtChatbot = `${botreply.data.cnt}`;
@@ -4716,7 +4710,7 @@ case 'chat':
         
         
 case "info":
-            Maria.sendMessage(from, { react: { text: "", key: m.key }}) 
+            Wave.sendMessage(from, { react: { text: "", key: m.key }}) 
         let ifx = ` ════  *Wave* ════ 
 
 \`\`\`A FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES\`\`\`
@@ -4730,17 +4724,17 @@ case "info":
 ❁ ═══ ❃•✍🏻 *CONTRIBUTE* ✍🏻•❃ ═══ ❁
 \`\`\`Feel free to open issues regarding any problems or if you have any feature feel free to contact owner by typing ${prefix}owner or ${prefix}mods`
 
-Maria.sendMessage(m.chat, { image: { url: "https://graph.org/file/c8ad7dc322c0b9b7eca8f.jpg" }, caption: ifx, gifPlayback: true }, { quoted: m });
+Wave.sendMessage(m.chat, { image: { url: "https://graph.org/file/c8ad7dc322c0b9b7eca8f.jpg" }, caption: ifx, gifPlayback: true }, { quoted: m });
         break;
 
 
     
       case "term":
-            Maria.sendMessage(from, { react: { text: "™️", key: m.key }}) 
+            Wave.sendMessage(from, { react: { text: "™️", key: m.key }}) 
         let tifx = `*𝚃𝙴𝚁𝙼𝚜 𝙰𝙽𝙳 𝙲𝙾𝙽𝙳𝙸𝚃𝙸𝙾𝙽*\n\n
 ⍟ *────────────────* ⍟ 
 
-📝 Note: Beware of fake Wave-MD bots! People may falsely claim to represent Maria-MD. Please exercise caution.
+📝 Note: Beware of fake Wave-MD bots! People may falsely claim to represent Wave-MD. Please exercise caution.
 
 _Whatsapp Bots have become increasingly popular, but with that comes the risk of encountering fake accounts. Stay vigilant._
 
@@ -4759,7 +4753,7 @@ _For everything else, use common sense._
 
 ⍟ *────────────────* ⍟`
 
-Maria.sendMessage(m.chat, { image: { url: "https://graph.org/file/c8ad7dc322c0b9b7eca8f.jpg" }, caption: tifx, gifPlayback: true }, { quoted: m });
+Wave.sendMessage(m.chat, { image: { url: "https://graph.org/file/c8ad7dc322c0b9b7eca8f.jpg" }, caption: tifx, gifPlayback: true }, { quoted: m });
         break;
         
         
@@ -4780,7 +4774,7 @@ case '': {
               text: botname
             }),
             header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync(randomImage)}, { upload: Maria.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync(randomImage)}, { upload: Wave.waUploadToServer})), 
               title: ` 𝑫𝒊𝒅 𝒀𝒐𝒖 𝑴𝒆𝒂𝒏 ${prefix}𝒉𝒆𝒍𝒑`,
               subtitle: themeemoji,
               hasMediaAttachment: true
@@ -4799,7 +4793,7 @@ case '': {
     }, {});
 
     // Send the message
-    await Maria.relayMessage(heeel.key.remoteJid, heeel.message, {
+    await Wave.relayMessage(heeel.key.remoteJid, heeel.message, {
       messageId: heeel.key.id
     });
   
@@ -4853,7 +4847,7 @@ if(isCmd){
                 }
         }
     } catch (err) {
-        Maria.sendText(m.chat, util.format(err), m)
+        Wave.sendText(m.chat, util.format(err), m)
         console.log(util.format(err))
     }
 }
