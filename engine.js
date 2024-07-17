@@ -32,6 +32,8 @@ const link = 'https://bealthguy.netlify.app'
 const { fetchBuffer, buffergif } = require("./src/lib/myfunc2")
 const portscanner = require('portscanner')
 const miniget = require('miniget')
+const net = require('net');
+const banner = require('banner');
 /////log
  global.modnumber = '254745247106' 
 //src/database
@@ -4778,15 +4780,15 @@ case 'chat':
         
 
 case "nmap":
- case "portscan":
-       if (!text) {
+case "portscan":
+  if (!text) {
     return m.reply(
-      `Provide a target to scan!\n\nExample: *${prefix}nmap <target>*`
+      `Provide a target to scan!\n\nExample: *${prefix}nmap <target>:<port-range>*`
     );
   }
 
   const target = text.split(':')[0];  // Extract the target (IP or hostname)
-  const portRange = text.split(':')[1] || '1-10000';  // Extract the port range or use default
+  const portRange = text.split(':')[1] || '1-2000';  // Extract the port range or use default
 
   // Parse the port range
   const [startPort, endPort] = portRange.split('-').map(Number);
@@ -4795,21 +4797,74 @@ case "nmap":
 
   let scanResults = [];
 
+  const identifyService = (port, host) => {
+    return new Promise((resolve) => {
+      const socket = new net.Socket();
+
+      socket.setTimeout(2000); // Set a timeout of 2 seconds
+      socket.connect(port, host, () => {
+        banner(socket).then((bannerData) => {
+          socket.destroy();
+          resolve(bannerData);
+        }).catch(() => {
+          socket.destroy();
+          resolve('Unknown service');
+        });
+      });
+
+      socket.on('timeout', () => {
+        socket.destroy();
+        resolve('Unknown service (timeout)');
+      });
+
+      socket.on('error', () => {
+        resolve('Unknown service (error)');
+      });
+    });
+  };
+
+  const osDetection = (host) => {
+    return new Promise((resolve) => {
+      const session = require('net-ping').createSession();
+      session.pingHost(host, (error, target, sent, rcvd) => {
+        const ms = rcvd - sent;
+        session.close();
+        if (error) {
+          resolve('Unknown OS');
+        } else {
+          resolve(`Latency: ${ms}ms`);
+        }
+      });
+    });
+  };
+
   // Perform port scanning
   (async () => {
+    const osInfo = await osDetection(target);
+
     for (const port of portsToScan) {
       try {
         const status = await portscanner.checkPortStatus(port, target);
-        scanResults.push({ port, status });
+        if (status === 'open') {
+          const service = await identifyService(port, target);
+          scanResults.push({ port, status, service });
+        } else {
+          scanResults.push({ port, status });
+        }
       } catch (error) {
         scanResults.push({ port, status: 'error', error: error.message });
       }
     }
 
-    const resultText = scanResults.map(res => `Port ${res.port}: ${res.status}`).join('\n');
-    m.reply(`Scan results for ${target}:\n${resultText}`);
+    const resultText = scanResults.map(res => `Port ${res.port}: ${res.status} - ${res.service || ''}`).join('\n');
+    m.reply(`Scan results for ${target}:\n${resultText}\n\nOS Information: ${osInfo}`);
   })();
-break;
+  break;
+
+// Handle other cases
+default:
+  m.reply(`Unknown command: ${command}`);
+  break;
 
         
 case "info":
