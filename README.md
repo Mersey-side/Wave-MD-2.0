@@ -18,14 +18,13 @@
 
 ### SETUP 
 
-  
 1. Fork The Repo
     <br>
-    <a href="https://github.com/Kyle6012/Wave-MD-2.0/fork"><img title="Maria-MD" src="https://img.shields.io/badge/FORK MARIA-MD-h?color=black&style=for-the-badge&logo=stackshare"></a>
+    <a href="https://github.com/Kyle6012/Wave-MD-2.0/fork"><img title="Maria-MD" src="https://img.shields.io/badge/FORK WAVE-MD-h?color=black&style=for-the-badge&logo=stackshare"></a>
 
 2. Pair with WhatsApp 
    <p align="left">
-       <a href="https://maria-pair.koyeb.app/pair.html">
+       <a href="">
          <img src="https://play-lh.googleusercontent.com/901aMQFFnVoX2T-YuJmTIwpPve_SUgMv_QSyzMSPtAqt_l0CyXN1DxfD6xXU0r2f9iM=w240-h480-rw" width="90" />
        </a>
    </p>
