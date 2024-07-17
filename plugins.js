@@ -9,8 +9,8 @@ const path = require('path')
 const axios = require('axios')
 const Config = require("./Config")
 const PhoneNumber = require('awesome-phonenumber')
-const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./Gallery/lib/exif')
-const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetch, await, sleep, reSize } = require('./Gallery/lib/myfunc.js')
+const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./src/lib/exif')
+const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetch, await, sleep, reSize } = require('./src/lib/myfunc.js')
 const { default: WaveConnect, delay, PHONENUMBER_MCC, makeCacheableSignalKeyStore, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore,getAggregateVotesInPollMessage, jidDecode, proto, Browsers } = require("@whiskeysockets/baileys")
 const NodeCache = require("node-cache")
 const Pino = require("pino")
@@ -30,7 +30,7 @@ const store = makeInMemoryStore({
 })
 
 let phoneNumber = "254745247106"
-let owner = JSON.parse(fs.readFileSync('./Gallery/database/owner.json'))
+let owner = JSON.parse(fs.readFileSync('./src/database/owner.json'))
 
 const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
 const useMobile = process.argv.includes("--mobile")

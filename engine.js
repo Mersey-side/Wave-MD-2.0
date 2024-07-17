@@ -24,22 +24,22 @@ const { exec, spawn, execSync } = require("child_process")
 const { performance } = require('perf_hooks')
 const more = String.fromCharCode(8206)
 const readmore = more.repeat(4001)
-const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./Gallery/lib/uploader')
-const { toAudio, toPTT, toVideo, ffmpeg, addExifAvatar } = require('./Gallery/lib/converter')
-const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, sleep, clockString, msToDate, sort, toNumber, enumGetKey, runtime, fetchJson, getBuffer, json, format, logic, generateProfilePicture, parseMention, getRandom, pickRandom, reSize } = require('./Gallery/lib/myfunc')
-let afk = require("./Gallery/lib/afk");
+const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./src/lib/uploader')
+const { toAudio, toPTT, toVideo, ffmpeg, addExifAvatar } = require('./src/lib/converter')
+const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, sleep, clockString, msToDate, sort, toNumber, enumGetKey, runtime, fetchJson, getBuffer, json, format, logic, generateProfilePicture, parseMention, getRandom, pickRandom, reSize } = require('./src/lib/myfunc')
+let afk = require("./src/lib/afk");
 const link = 'https://bealthguy.netlify.app'
-const { fetchBuffer, buffergif } = require("./Gallery/lib/myfunc2")
+const { fetchBuffer, buffergif } = require("./src/lib/myfunc2")
 const miniget = require('miniget')
 /////log
  global.modnumber = '254745247106' 
-//Gallery/database
-let ntilinkall =JSON.parse(fs.readFileSync('./Gallery/database/antilink.json'));
-// let autoblck =JSON.parse(fs.readFileSync('./Gallery/database/autoblock.json'));
-const isnsfw = JSON.parse(fs.readFileSync('./Gallery/database/nsfw.json'));
+//src/database
+let ntilinkall =JSON.parse(fs.readFileSync('./src/database/antilink.json'));
+// let autoblck =JSON.parse(fs.readFileSync('./src/database/autoblock.json'));
+const isnsfw = JSON.parse(fs.readFileSync('./src/database/nsfw.json'));
 
-let _afk = JSON.parse(fs.readFileSync('./Gallery/database/afk-user.json'))
-let hit = JSON.parse(fs.readFileSync('./Gallery/database/total-hit-user.json'))
+let _afk = JSON.parse(fs.readFileSync('./src/database/afk-user.json'))
+let hit = JSON.parse(fs.readFileSync('./src/database/total-hit-user.json'))
 
 //time
 const replay = (teks) => {
@@ -171,7 +171,7 @@ const getRandomImage = (directory) => {
   }
 };
 
-const imageDirectory = './Gallery/Theme-logo';
+const imageDirectory = './src/Theme-logo';
   const randomImage = getRandomImage(imageDirectory);
 
 //group chat msg by Bealth
@@ -189,7 +189,7 @@ isForwarded: true,
 "body": `${ownername}`,
 "previewType": "PHOTO",
 "thumbnailUrl": ``,
-"thumbnail": fs.readFileSync(`./Gallery/thumb.jpg`),
+"thumbnail": fs.readFileSync(`./src/thumb.jpg`),
 "sourceUrl": `${link}`}}},
 { quoted: m})
 }
@@ -321,12 +321,12 @@ async function Telesticker(url) {
         if (command) {
             const cmdadd = () => {
                 hit[0].hit_cmd += 1
-                fs.writeFileSync('./Gallery/database/total-hit-user.json', JSON.stringify(hit))
+                fs.writeFileSync('./src/database/total-hit-user.json', JSON.stringify(hit))
             }
             cmdadd()
-            const totalhit = JSON.parse(fs.readFileSync('./Gallery/database/total-hit-user.json'))[0].hit_cmd
+            const totalhit = JSON.parse(fs.readFileSync('./src/database/total-hit-user.json'))[0].hit_cmd
         }
-        const photooxy = require('./Gallery/lib/photooxy')
+        const photooxy = require('./src/lib/photooxy')
         
         
 
@@ -347,7 +347,7 @@ async function Telesticker(url) {
                 let getTime = Date.now() - afk.getAfkTime(getId, _afk)
                 let heheh = ms(getTime)
                 _afk.splice(afk.getAfkPosition(m.sender, _afk), 1)
-                fs.writeFileSync('./Gallery/database/afk-user.json', JSON.stringify(_afk))
+                fs.writeFileSync('./src/database/afk-user.json', JSON.stringify(_afk))
                 Wave.sendTextWithMentions(m.chat, `@${m.sender.split('@')[0]} have returned from afk`, m)
             }
         }
@@ -681,7 +681,7 @@ if (!isCreator) return replay(mess.botowner)
 if (args[0] === "on") {
 if (AutoBlock) return reply('Already activated')
 ntilinkall.push(from)
-fs.writeFileSync('./Gallery/database/autoblock.json', JSON.stringify(ntilinkall))
+fs.writeFileSync('./src/database/autoblock.json', JSON.stringify(ntilinkall))
 reply('Success in turning on all autoblock in this group')
 var groupe = await Wave.groupMetadata(from)
 var members = groupe['participants']
@@ -694,7 +694,7 @@ Wave.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nDont D
 if (!AutoBlock) return reply('Already deactivated')
 let off = ntilinkall.indexOf(from)
 ntilinkall.splice(off, 1)
-fs.writeFileSync('./Gallery/database/autoblock.json', JSON.stringify(ntilinkall))
+fs.writeFileSync('./src/database/autoblock.json', JSON.stringify(ntilinkall))
 reply('Success in turning off all autoblock in this group')
 } else {
   await reply(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
@@ -710,7 +710,7 @@ reply('Success in turning off all autoblock in this group')
 if (args[0] === "on") {
 if (AntiLinkAll) return reply('Already activated')
 ntilinkall.push(from)
-fs.writeFileSync('./Gallery/database/antilink.json', JSON.stringify(ntilinkall))
+fs.writeFileSync('./src/database/antilink.json', JSON.stringify(ntilinkall))
 reply('Success in turning on all antilink in this group')
 var groupe = await Wave.groupMetadata(from)
 var members = groupe['participants']
@@ -723,7 +723,7 @@ Wave.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nIf you
 if (!AntiLinkAll) return reply('Already deactivated')
 let off = ntilinkall.indexOf(from)
 ntilinkall.splice(off, 1)
-fs.writeFileSync('./Gallery/database/antilinkall.json', JSON.stringify(ntilinkall))
+fs.writeFileSync('./src/database/antilinkall.json', JSON.stringify(ntilinkall))
 reply('Success in turning off all antilink in this group')
 } else {
   await reply(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
@@ -768,7 +768,7 @@ break;
             case 'delsession':
             case 'clearsession': {
                 if (!isCreator) return reply(mess.owner)
-                fs.readdir("./Gallery/session", async function(err, files) {
+                fs.readdir("./session", async function(err, files) {
                     if (err) {
                         console.log('Unable to scan directory: ' + err);
                         return reply('Unable to scan directory: ' + err);
@@ -786,7 +786,7 @@ break;
                     await sleep(2000)
                     reply("Delete junk files...")
                     await filteredArray.forEach(function(file) {
-                        fs.unlinkSync(`./Gallery/session/${file}`)
+                        fs.unlinkSync(`./src/session/${file}`)
                     });
                     await sleep(2000)
                     reply("Successfully deleted all the trash in the session folder")
@@ -1496,7 +1496,7 @@ break;
                 let media = await Wave.downloadMediaMessage(qmsg)
                 let {
                     toPTT
-                } = require('./Gallery/lib/converter')
+                } = require('./src/lib/converter')
                 let audio = await toPTT(media, 'mp4')
                 Wave.sendMessage(m.chat, {
                     audio: audio,
@@ -1626,7 +1626,7 @@ break;
       case 'qc': {
                 const {
                     quote
-                } = require('./Gallery/lib/quote.js')
+                } = require('./src/lib/quote.js')
                 if (!q) return reply('Enter Text')
                 let ppnyauser = await await Wave.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
                 const rest = await quote(q, pushname, ppnyauser)
@@ -1641,7 +1641,7 @@ break;
 case 'play':  case 'song': {
 Wave.sendMessage(from, { react: { text: "📥", key: m.key }}) 
 if (!text) return reply(`𝑷𝒍𝒆𝒂𝒔𝒆 𝒎𝒆𝒏𝒕𝒊𝒐𝒏 𝒂 𝒔𝒐𝒏𝒈 𝒏𝒂𝒎𝒆  \n\n 𝑬𝒙𝒂𝒎𝒑𝒍𝒆: ${prefix + command}  𝒂𝒏𝒊𝒎𝒆 𝑾𝒉𝒂𝒕𝒔𝑨𝒑𝒑 𝒔𝒕𝒂𝒕𝒖𝒔`)
-const Bealthplaymp3 = require('./Gallery/lib/ytdl2')
+const Bealthplaymp3 = require('./src/lib/ytdl2')
 let yts = require("youtube-yts")
         let search = await yts(text)
         let anup3k = search.videos[0]
@@ -1667,7 +1667,7 @@ await fs.unlinkSync(pl.path)
 break;
 
 case 'ytmp4': case 'ytvideo': {
-const Bealthvidoh = require('./Gallery/lib/ytdl2')
+const Bealthvidoh = require('./src/lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !Bealthvidoh.isYTUrl(text)) reply(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
 const vid=await Bealthvidoh.mp4(text)
 const ytc=`
@@ -2492,7 +2492,7 @@ Cieeee, What's Going On❤️💖👀`,
                   previewType: "PHOTO",
                   thumbnailUrl: ``,
                   thumbnail: fs.readFileSync(
-                    `./Gallery/thumb.jpg`
+                    `./src/thumb.jpg`
                   ),
                   sourceUrl: `${link}`,
                 },
@@ -2546,7 +2546,7 @@ case 'public': {
 │⊳ 💦  ${prefix}ᴄʜᴀɪɴ
 └──────────⊰ 
 `
-        Wave.sendMessage(m.chat, { image: { url: "./Gallery/nsfw.jpg" }, caption: nsfwmenu }, { quoted: m });
+        Wave.sendMessage(m.chat, { image: { url: "./src/nsfw.jpg" }, caption: nsfwmenu }, { quoted: m });
         break;
         
 ////////////////////menu_v2.1///////////////////////
@@ -2581,7 +2581,7 @@ let gmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: generalmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2644,7 +2644,7 @@ let emsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: educationmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2705,7 +2705,7 @@ await Wave.relayMessage(emsg.key.remoteJid, emsg.message, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: codingmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2781,7 +2781,7 @@ let owmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: ownermenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2854,7 +2854,7 @@ await Wave.relayMessage(owmsg.key.remoteJid, owmsg.message, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: groupmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2933,7 +2933,7 @@ let funmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: funmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -2999,7 +2999,7 @@ let dowmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: downloadmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -3060,7 +3060,7 @@ let wallmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: wallmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -3132,7 +3132,7 @@ await Wave.relayMessage(wallmsg.key.remoteJid, wallmsg.message, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
             title: snapblendmenu,
             subtitle: themeemoji,
             hasMediaAttachment: false
@@ -3342,7 +3342,7 @@ let msg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
                   title: ``,
                   gifPlayback: true,
                   subtitle: ownername,
@@ -3420,7 +3420,7 @@ let liistmsg = generateWAMessageFromContent(from, {
             text: botname
           }),
                     header: proto.Message.InteractiveMessage.Header.create({
-                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./Gallery/list.jpg')}, { upload: Wave.waUploadToServer})), 
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})), 
                   title: ``,
                   gifPlayback: true,
                   subtitle: ownername,
@@ -3512,9 +3512,9 @@ case 'nobg': case 'removebg': case 'remove-bg': {
 	    let remobg = require('remove.bg')
 	    let apirnobg = ['q61faXzzR5zNU6cvcrwtUkRU','S258diZhcuFJooAtHTaPEn4T','5LjfCVAp4vVNYiTjq9mXJWHF','aT7ibfUsGSwFyjaPZ9eoJc61','BY63t7Vx2tS68YZFY6AJ4HHF','5Gdq1sSWSeyZzPMHqz7ENfi8','86h6d6u4AXrst4BVMD9dzdGZ','xp8pSDavAgfE5XScqXo9UKHF','dWbCoCb3TacCP93imNEcPxcL']
 	    let apinobg = apirnobg[Math.floor(Math.random() * apirnobg.length)]
-	    hmm = await './Gallery/remobg-'+getRandom('')
+	    hmm = await './src/remobg-'+getRandom('')
 	    localFile = await Wave.downloadAndSaveMediaMessage(quoted, hmm)
-	    outputFile = await './Gallery/hremo-'+getRandom('.png')
+	    outputFile = await './src/hremo-'+getRandom('.png')
 	    m.reply(mess.wait)
 	    remobg.removeBackgroundFromImageFile({
 	      path: localFile,
@@ -3684,7 +3684,7 @@ break;
 if (args[0] === "on") {
 if (AntiNsfw) return reply('Already activated✅️')
 isnsfw.push(from)
-fs.writeFileSync('./Gallery/database/nsfw.json', JSON.stringify(isnsfw))
+fs.writeFileSync('./src/database/nsfw.json', JSON.stringify(isnsfw))
 reply('Successfully activating nsfw mode in this group ✔️')
 var groupe = await Wave.groupMetadata(from)
 var members = groupe['participants']
@@ -3697,7 +3697,7 @@ Wave.sendMessage(from, {text:  `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nNsfw(
 if (!AntiNsfw) return reply('Already deactivated')
 let off = isnsfw.indexOf(from)
 isnsfw.splice(off, 1)
-fs.writeFileSync('./Gallery/database/nsfw.json', JSON.stringify(isnsfw))
+fs.writeFileSync('./src/database/nsfw.json', JSON.stringify(isnsfw))
 reply('Successfully deactivating nsfw mode in this group ✔️')
 } else {
   await reply(`*Kindly input the choice as follows:*
@@ -3727,7 +3727,7 @@ case 'ribbons':
         case 'blowjob':
  if (!m.isGroup) return reply(mess.group);
    if (!isNsfw) return reply(mess.nsfw);
-var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/blowjob.json'))
+var ahegaonsfw = JSON.parse(fs.readFileSync('./src/nsfw/blowjob.json'))
 var Waveyresult = pickRandom(ahegaonsfw)
 Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
@@ -3735,7 +3735,7 @@ break;
 case 'cum':
  if (!m.isGroup) return reply(mess.group);
    if (!isNsfw) return reply(mess.nsfw);
-var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/cum.json'))
+var ahegaonsfw = JSON.parse(fs.readFileSync('./src/nsfw/cum.json'))
 var Waveyresult = pickRandom(ahegaonsfw)
 Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
@@ -3743,7 +3743,7 @@ break;
 case 'foot':
  if (!m.isGroup) return reply(mess.group); 
   if (!isNsfw) return reply(mess.nsfw);
-var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/foot.json'))
+var ahegaonsfw = JSON.parse(fs.readFileSync('./src/nsfw/foot.json'))
 var Waveyresult = pickRandom(ahegaonsfw)
 Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
@@ -3751,7 +3751,7 @@ break;
 case 'gangbang':
  if (!m.isGroup) return reply(mess.group);
    if (!isNsfw) return reply(mess.nsfw);
-var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/gangbang.json'))
+var ahegaonsfw = JSON.parse(fs.readFileSync('./src/nsfw/gangbang.json'))
 var Waveyresult = pickRandom(ahegaonsfw)
 Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
@@ -3759,7 +3759,7 @@ break;
 case 'hentai':
  if (!m.isGroup) return reply(mess.group);
    if (!isNsfw) return reply(mess.nsfw);
-var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/hentai.json'))
+var ahegaonsfw = JSON.parse(fs.readFileSync('./src/nsfw/hentai.json'))
 var Waveyresult = pickRandom(ahegaonsfw)
 Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
@@ -3767,7 +3767,7 @@ break;
 case 'pussy':
  if (!m.isGroup) return reply(mess.group);   
 if (!isNsfw) return reply(mess.nsfw);
-var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/pussy.json'))
+var ahegaonsfw = JSON.parse(fs.readFileSync('./src/nsfw/pussy.json'))
 var Waveyresult = pickRandom(ahegaonsfw)
 Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
@@ -3775,7 +3775,7 @@ break;
 case 'ass':
  if (!m.isGroup) return reply(mess.group);  
  if (!isNsfw) return reply(mess.nsfw);
-var ahegaonsfw = JSON.parse(fs.readFileSync('./Gallery/nsfw/ass.json'))
+var ahegaonsfw = JSON.parse(fs.readFileSync('./src/nsfw/ass.json'))
 var Waveyresult = pickRandom(ahegaonsfw)
 Wave.sendMessage(m.chat, { caption: mess.done, image: { url: Waveyresult.url } }, { quoted: m })
 break;
@@ -3981,7 +3981,7 @@ case 'zero-two': {
 			if (!quoted) return reply(`Where is the picture?`)
 			if (!/image/.test(mime)) return reply(`Send/Reply Photos With Captions ${prefix + command}`)
 			reply(mess.wait)
-			const { remini } = require('./Gallery/lib/remini')
+			const { remini } = require('./src/lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
 			Wave.sendMessage(m.chat, { image: proses, caption: mess.done}, { quoted: m})
@@ -4038,7 +4038,7 @@ case 'hidetag': {
       case 'img': {
       if (!args.join(" ")) return reply(`🧩${pushname}Please provide a search term!`);
         reply(mess.waiting)
-        let { pinterest } = require('./Gallery/lib/scraper');
+        let { pinterest } = require('./src/lib/scraper');
         let anutrest = await pinterest(text);
         let results = [];
 
@@ -4093,7 +4093,7 @@ break;
 case 'mediafire': {
 	if (args.length == 0) return reply(`🧩Where is the link ?`)
 	if (!isUrl(args[0]) && !args[0].includes('mediafire.com')) return reply(`🧩The link you provided is invalid`)
-	const { mediafireDl } = require('./Gallery/lib/mediafire.js')
+	const { mediafireDl } = require('./src/lib/mediafire.js')
 	const baby1 = await mediafireDl(text)
 	if (baby1[0].size.split('MB')[0] >= 100) return reply('Oops, the file is too big...')
 	const result4 = `𝙈𝙀𝘿𝙄𝘼𝙁𝙄𝙍𝙀
