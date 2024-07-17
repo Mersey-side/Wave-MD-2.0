@@ -82,7 +82,7 @@ exports.fetchJson = async (url, options) => {
             method: 'GET',
             url: url,
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0'
             },
             ...options
         })
@@ -124,7 +124,7 @@ exports.getTime = (format, date) => {
     if (date) {
         return moment(date).locale('id').format(format)
     } else {
-        return moment.tz('Asia/Jakarta').locale('id').format(format)
+        return moment.tz('Afica/Nairobi').locale('id').format(format)
     }
 }
 
@@ -142,8 +142,8 @@ exports.formatDate = (n, locale = 'id') => {
 }
 
 exports.tanggal = (numer) => {
-    myMonths = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    myDays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum’at', 'Sabtu'];
+    myMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    myDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     var tgl = new Date(numer);
     var day = tgl.getDate()
     bulan = tgl.getMonth()

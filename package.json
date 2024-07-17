@@ -67,7 +67,7 @@
         "word-definition": "^2.1.6",
         "youtube-yts": "^2.0.0",
         "youtubedl-core": "^4.11.5",
-        "ytdl-core": "^4.11.5"
+        "ytdl-core": "latest"
     },
     "packageManager": "yarn@4.1.1"
 }

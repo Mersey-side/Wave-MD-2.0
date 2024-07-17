@@ -10,7 +10,7 @@ const util = require('util')
 const googleTTS = require('google-tts-api')
 const jsobfus = require('javascript-obfuscator')
 const chalk = require('chalk')
-    const dictionary = require('word-definition');
+const dictionary = require('word-definition');
 const wikipedia = require('wikipedia');
 const npt = require("node-periodic-table");
 const pTable = require("ptable"); 
@@ -28,9 +28,9 @@ const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./Gallery/l
 const { toAudio, toPTT, toVideo, ffmpeg, addExifAvatar } = require('./Gallery/lib/converter')
 const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, sleep, clockString, msToDate, sort, toNumber, enumGetKey, runtime, fetchJson, getBuffer, json, format, logic, generateProfilePicture, parseMention, getRandom, pickRandom, reSize } = require('./Gallery/lib/myfunc')
 let afk = require("./Gallery/lib/afk");
-
+const link = 'https://bealthguy.netlify.app'
 const { fetchBuffer, buffergif } = require("./Gallery/lib/myfunc2")
-
+const miniget = require('miniget')
 /////log
  global.modnumber = '254745247106' 
 //Gallery/database
@@ -1334,7 +1334,7 @@ case 'tag': case 'tagall': case 'all':{
             { detectLink: true }
           );
         }
-        await Wave.sendMessage(m.chat, { video: { url: `https://media.tenor.com/hzWYhzhMTeEAAAPo/Wave-useless.mp4` }, caption: 'I sent you the Group Link in personal message.\n Pls check.', gifPlayback: true }, { quoted: m });
+        await Wave.sendMessage(m.chat, { video: { url: `https://media.tenor.com/hzWYhzhMTeEAAAPo/maria-useless.mp4` }, caption: 'I sent you the Group Link in personal message.\n Pls check.', gifPlayback: true }, { quoted: m });
         break;
         
             case 'revoke':
@@ -3863,7 +3863,7 @@ case 'pokemon': {
   try {
     // Fetch the image
      const axios = require('axios');
-    const imageUrl = 'https://Bealth-pokemon.onrender.com';
+    const imageUrl = 'https://ayush-pokemon.onrender.com';
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
     const imageBuffer = Buffer.from(response.data, 'binary');
 
@@ -3923,7 +3923,7 @@ case 'zero-two': {
   try {
     // Fetch the image
      const axios = require('axios');
-    const imageUrl = 'https://Bealth-zero-two.onrender.com';
+    const imageUrl = 'https://ayush-zero-two.onrender.com';
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
     const imageBuffer = Buffer.from(response.data, 'binary');
 
