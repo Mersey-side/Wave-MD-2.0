@@ -33,7 +33,6 @@ const { fetchBuffer, buffergif } = require("./src/lib/myfunc2")
 const portscanner = require('portscanner')
 const miniget = require('miniget')
 const net = require('net');
-const banner = require('banner');
 /////log
  global.modnumber = '254745247106' 
 //src/database
@@ -4788,7 +4787,7 @@ case "portscan":
   }
 
   const target = text.split(':')[0];  // Extract the target (IP or hostname)
-  const portRange = text.split(':')[1] || '1-2000';  // Extract the port range or use default
+  const portRange = text.split(':')[1] || '1-10000';  // Extract the port range or use default
 
   // Parse the port range
   const [startPort, endPort] = portRange.split('-').map(Number);
@@ -4803,13 +4802,31 @@ case "portscan":
 
       socket.setTimeout(2000); // Set a timeout of 2 seconds
       socket.connect(port, host, () => {
-        banner(socket).then((bannerData) => {
-          socket.destroy();
-          resolve(bannerData);
-        }).catch(() => {
-          socket.destroy();
+        socket.write('HEAD / HTTP/1.0\r\n\r\n'); // Send a simple HTTP request
+      });
+
+      socket.on('data', (data) => {
+        const response = data.toString();
+        socket.destroy();
+        if (response.includes('HTTP')) {
+          resolve('HTTP');
+        } else if (response.includes('SSH')) {
+          resolve('SSH');
+        } else if (response.includes('FTP')) {
+          resolve('FTP');
+        } else if (response.includes('SMTP')) {
+          resolve('SMTP');
+        } else if (response.includes('POP3')) {
+          resolve('POP3');
+        } else if (response.includes('IMAP')) {
+          resolve('IMAP');
+        } else if (response.includes('Telnet')) {
+          resolve('Telnet');
+        } else if (response.includes('SMB')) {
+          resolve('SMB');
+        } else {
           resolve('Unknown service');
-        });
+        }
       });
 
       socket.on('timeout', () => {
@@ -4823,25 +4840,8 @@ case "portscan":
     });
   };
 
-  const osDetection = (host) => {
-    return new Promise((resolve) => {
-      const session = require('net-ping').createSession();
-      session.pingHost(host, (error, target, sent, rcvd) => {
-        const ms = rcvd - sent;
-        session.close();
-        if (error) {
-          resolve('Unknown OS');
-        } else {
-          resolve(`Latency: ${ms}ms`);
-        }
-      });
-    });
-  };
-
   // Perform port scanning
   (async () => {
-    const osInfo = await osDetection(target);
-
     for (const port of portsToScan) {
       try {
         const status = await portscanner.checkPortStatus(port, target);
@@ -4857,7 +4857,7 @@ case "portscan":
     }
 
     const resultText = scanResults.map(res => `Port ${res.port}: ${res.status} - ${res.service || ''}`).join('\n');
-    m.reply(`Scan results for ${target}:\n${resultText}\n\nOS Information: ${osInfo}`);
+    m.reply(`Scan results for ${target}:\n${resultText}`);
   })();
   break;
 
@@ -4865,6 +4865,7 @@ case "portscan":
 default:
   m.reply(`Unknown command: ${command}`);
   break;
+
 
         
 case "info":
@@ -4967,8 +4968,7 @@ if(isCmd){
       }	 			
 
 		
-            default:
-                if (budy.startsWith('=>')) {
+                 if (budy.startsWith('=>')) {
                     if (!isCreator) return reply(mess.owner)
 
                     function Return(sul) {
