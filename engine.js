@@ -1,4 +1,4 @@
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getAggregateVotesInPollMessage,getContentType, delay, decodeJid } = require('@whiskeysockets/baileys')
+const { makeWASocket, useMultiFileAuthState, DisconnectReason, BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getAggregateVotesInPollMessage,getContentType, delay, decodeJid } = require('@whiskeysockets/baileys')
 const { SendGroupInviteMessageToUser } = require("@queenanya/invite")
 const Config = require("./Config")
 const os = require('os')
@@ -42,6 +42,51 @@ const isnsfw = JSON.parse(fs.readFileSync('./src/database/nsfw.json'));
 
 let _afk = JSON.parse(fs.readFileSync('./src/database/afk-user.json'))
 let hit = JSON.parse(fs.readFileSync('./src/database/total-hit-user.json'))
+
+// Load auth state from file
+async function loadAuthState() {
+  try {
+    const authState = await useMultiFileAuthState(path.join(__dirname, 'src', 'session'));
+    return authState;
+  } catch (error) {
+    console.error('Failed to load auth state:', error);
+    process.exit(1);
+  }
+}
+
+// Connection logic for baileys
+async function connectToWhatsApp() {
+  const { state, saveCreds } = await loadAuthState();
+  try {
+    const sock = makeWASocket({ auth: state });
+
+    sock.ev.on('creds.update', saveCreds);
+
+    sock.ev.on('connection.update', (update) => {
+      const { connection, lastDisconnect } = update;
+      if (connection === 'close') {
+        const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
+        console.log('Connection closed due to', lastDisconnect.error, ', reconnecting', shouldReconnect);
+        // reconnect if not logged out
+        if (shouldReconnect) {
+          connectToWhatsApp();
+        } else {
+          process.exit(1); // Exit process if logged out
+        }
+      } else if (connection === 'open') {
+        console.log('Connected');
+      }
+    });
+
+    // Add your event handling logic for messages and other events here
+
+  } catch (error) {
+    console.error('Failed to connect to WhatsApp:', error);
+    setTimeout(connectToWhatsApp, 5000); // Retry connection after 5 seconds
+  }
+}
+
+connectToWhatsApp();
 
 //time
 const replay = (teks) => {
