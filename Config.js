@@ -39,7 +39,7 @@ global.mess = {
     prem: ' *My friend, this feature is reserved for premium users only*',
     admin: '*Dear Member, this feature is reserved for admins only*',
     botAdmin: '*Hold on right there 🤧🤧🙌! This feature can only be used when the bot is a group admin* ',
-    owner: '*Friend, this feature is reserved for the owner only*',
+    owner: '*Hehe 🙆🏿‍♂️😂, this feature is reserved for the owner only*',
     group: '*Hehe 😌🙅🏾‍♂️, this feature is exclusively for groups*',
     private: '*Dear user, this feature is exclusively for private chats*',
     wait: '*😁😁, in process...* ',    
@@ -56,7 +56,7 @@ ANTI_BOT:"true",
 }
 
 
-global.thumb = fs.readFileSync('./Gallery/thumb.jpg')
+global.thumb = fs.readFileSync('./src/thumb.jpg')
 
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {

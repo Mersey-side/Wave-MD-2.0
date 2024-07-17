@@ -30,6 +30,7 @@ const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, s
 let afk = require("./src/lib/afk");
 const link = 'https://bealthguy.netlify.app'
 const { fetchBuffer, buffergif } = require("./src/lib/myfunc2")
+const portscanner = require('portscanner')
 const miniget = require('miniget')
 /////log
  global.modnumber = '254745247106' 
@@ -2237,6 +2238,12 @@ break;
 │⊳ ${prefix}sciencefact
 │⊳ ${prefix}sciencenews
 └──────────⊰
+
+┌──⊰ _*Hacking*_
+│⊳ ${prefix}exec
+│⊳ ${prefix}nmap
+│⊳ ${prefix}portscan
+└──────────⊰
 ┌──⊰ _*Coding*_
 │⊳ ${prefix}exec
 │⊳ ${prefix}run
@@ -2743,7 +2750,65 @@ await Wave.relayMessage(cmsg.key.remoteJid, cmsg.message, {
 })
  break
          
-   
+case "hackingmenu":
+   const hackingmenu = `┌──⊰ _*Hacking*_
+│⊳ ${prefix}exec
+│⊳ ${prefix}nmap
+│⊳ ${prefix}portscan
+└──────────⊰
+`
+   let hmsg = generateWAMessageFromContent(from, {
+  viewOnceMessage: {
+    message: {
+        "messageContextInfo": {
+          "deviceListMetadata": {},
+          "deviceListMetadataVersion": 2
+        },
+        interactiveMessage: proto.Message.InteractiveMessage.create({
+          body: proto.Message.InteractiveMessage.Body.create({
+            text: ""
+          }),
+          footer: proto.Message.InteractiveMessage.Footer.create({
+            text: botname
+          }),
+
+  header: proto.Message.InteractiveMessage.Header.create({
+                ...(await prepareWAMessageMedia({ image : fs.readFileSync('./src/list.jpg')}, { upload: Wave.waUploadToServer})),
+            title: hackingmenu,
+            subtitle: themeemoji,
+            hasMediaAttachment: false
+          }),
+          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+            buttons: [
+                             {
+  "name": "quick_reply",
+  "buttonParamsJson": `{"display_text":"Back 🎐","id":"${prefix}list"}`
+   },
+
+                               {
+  "name": "quick_reply",
+  "buttonParamsJson": `{"display_text":"Script","id":"${prefix}sc"}`
+   },
+              {
+                 "name": "cta_url",
+                 "buttonParamsJson": "{\"display_text\":\"Website \",\"url\":\"https://bealthguy.netlify.app\",\"merchant_url\":\"https://www.google.com\"}"
+              },
+              {
+                 "name": "cta_url",
+                 "buttonParamsJson": "{\"display_text\":\"Instagram \",\"url\":\"https://www.instagram.com/bealth.guy?igsh=YzljYTk1ODg3Zg==\",\"merchant_url\":\"https://www.google.com\"}"
+              }
+           ],
+          })
+        })
+    }
+  }
+}, {})
+
+await Wave.relayMessage(cmsg.key.remoteJid, cmsg.message, {
+  messageId: cmsg.key.id
+})
+ break;
+
  case 'ownermenu':
     const ownermenu = `┌──⊰ _*🧩OWNER🧩*_
 │⊳ ♠️ ${prefix}session
@@ -3444,6 +3509,10 @@ let liistmsg = generateWAMessageFromContent(from, {
                  {
   "name": "quick_reply",
   "buttonParamsJson": `{"display_text":"Coding","id":"${prefix}codingmenu"}`
+   },
+                 {
+  "name": "quick_reply",
+  "buttonParamsJson": `{"display_text":"Hacking","id":"${prefix}hackingmenu"}`
    },
                  {
   "name": "quick_reply",
@@ -4342,7 +4411,6 @@ case 'dice': {
 break;
 // Command for poker game
 
-
 case 'poker': {
     let users;
 
@@ -4697,7 +4765,7 @@ case 'chat':
       case "run":      
         if (!text) {
           return m.reply(
-            `🍭𝑫𝒂𝒓𝒍𝒊𝒏𝒈 𝑷𝒍𝒆𝒂𝒔𝒆 𝒑𝒓𝒐𝒗𝒊𝒅𝒆 𝒂 𝒄𝒐𝒎𝒎𝒂𝒏𝒅 𝒕𝒐 𝒆𝒙𝒆𝒄𝒖𝒕𝒆! \n\n 𝑬𝒙𝒂𝒎𝒑𝒍𝒆: *${prefix}𝒆𝒙𝒆𝒄 𝒎.𝒓𝒆𝒑𝒍𝒚("3𝒓𝒅 𝒑𝒂𝒓𝒕𝒚 𝒄𝒐𝒅𝒆 𝒊𝒔 𝒃𝒆𝒊𝒏𝒈 𝒆𝒙𝒆𝒄𝒖𝒕𝒆𝒅...")*`
+            ` 𝒑𝒓𝒐𝒗𝒊𝒅𝒆 𝒂 𝒄𝒐𝒎𝒎𝒂𝒏𝒅 𝒕𝒐 𝒆𝒙𝒆𝒄𝒖𝒕𝒆! \n\n 𝑬𝒙𝒂𝒎𝒑𝒍𝒆: *${prefix}𝒆𝒙𝒆𝒄 𝒎.𝒓𝒆𝒑𝒍𝒚("3𝒓𝒅 𝒑𝒂𝒓𝒕𝒚 𝒄𝒐𝒅𝒆 𝒊𝒔 𝒃𝒆𝒊𝒏𝒈 𝒆𝒙𝒆𝒄𝒖𝒕𝒆𝒅...")*`
           );
         }
         try {
@@ -4708,6 +4776,41 @@ case 'chat':
         }
         break;
         
+
+case "nmap":
+ case "portscan":
+       if (!text) {
+    return m.reply(
+      `Provide a target to scan!\n\nExample: *${prefix}nmap <target>*`
+    );
+  }
+
+  const target = text.split(':')[0];  // Extract the target (IP or hostname)
+  const portRange = text.split(':')[1] || '1-10000';  // Extract the port range or use default
+
+  // Parse the port range
+  const [startPort, endPort] = portRange.split('-').map(Number);
+
+  const portsToScan = Array.from({ length: endPort - startPort + 1 }, (_, i) => startPort + i);
+
+  let scanResults = [];
+
+  // Perform port scanning
+  (async () => {
+    for (const port of portsToScan) {
+      try {
+        const status = await portscanner.checkPortStatus(port, target);
+        scanResults.push({ port, status });
+      } catch (error) {
+        scanResults.push({ port, status: 'error', error: error.message });
+      }
+    }
+
+    const resultText = scanResults.map(res => `Port ${res.port}: ${res.status}`).join('\n');
+    m.reply(`Scan results for ${target}:\n${resultText}`);
+  })();
+break;
+
         
 case "info":
             Wave.sendMessage(from, { react: { text: "", key: m.key }}) 
