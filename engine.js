@@ -4379,7 +4379,7 @@ https://chat.whatsapp.com/${response}
         case 'test': case 'p': case 'ping': 
         let timestampe = speed()
         let latensie = speed() - timestampe
-         reply(`Testing successfull, Bot is active\n\n📍*ping* ${latensie.toFixed(4)} miliseconds\n\nType ${prefix}help to display the menu`)
+         reply(`Bot active\n\n *ping* ${latensie.toFixed(4)} miliseconds\n`)
         break;   
     
         
