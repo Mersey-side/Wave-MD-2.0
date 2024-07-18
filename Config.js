@@ -3,17 +3,17 @@ const chalk = require('chalk');
 require('dotenv').config();
 
 //contact details
-global.ownernumber = [ process.env.OWNER_NUMBER || "254745247106"],
-global.ownername = process.env.OWNER_NAME || "Bealth Guy",
+global.ownernumber = [ process.env.OWNER_NUMBER || "254102028964"],
+global.ownername = process.env.OWNER_NAME || "merseyside",
 global.ytname = "YT: Kyle Meshack"
 global.socialm = "GitHub: Kyle6012"
 
 global.botname = process.env.BOTNAME || "WAVE-MD",
 
 //sticker details
-global.stickername = process.env.STICKER || "BG",
+global.stickername = process.env.STICKER || "mer-md",
 global.packname = 'Sticker By'
-global.author = process.env.AUTHOR || "CUTLER",
+global.author = process.env.AUTHOR || "merseyside",
 //console view/theme
 global.themeemoji = '🧩'
 global.wm = "bealthguy"
@@ -22,11 +22,11 @@ global.wm = "bealthguy"
 global.prefa = process.env.PREFIX || ".",
 
 //false=disable and true=enable
-global.welcome = process.env.WELCOME || "false", //auto welcome
+global.welcome = process.env.WELCOME || "true", //auto welcome
 global.autoRecording = false //auto recording
-global.autoTyping = false //auto typing
+global.autoTyping = true //auto typing
 global.autorecordtype = false //auto typing + recording
-global.autoread = false //auto read messages
+global.autoread = true //auto read messages
 global.autobio = false //auto update bio
 global.anti212 = true //auto block +212
 global.autoread_status = true //auto view status/story
