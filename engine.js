@@ -2850,8 +2850,8 @@ case "hackingmenu":
   }
 }, {})
 
-await Wave.relayMessage(hmsg.key.remoteJid, cmsg.message, {
-  messageId: cmsg.key.id
+await Wave.relayMessage(hmsg.key.remoteJid, hmsg.message, {
+  messageId: hmsg.key.id
 })
  break;
 
